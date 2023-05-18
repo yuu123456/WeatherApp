@@ -55,6 +55,80 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23379CB32A16310E00CCDBD3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		23379CB42A16312400CCDBD3 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				23379CB72A16317800CCDBD3 /* Splash */,
+				23379CB92A1631C300CCDBD3 /* Main */,
+				23379CBA2A1631D300CCDBD3 /* Select */,
+				23379CBB2A16320C00CCDBD3 /* Detail */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		23379CB52A16314D00CCDBD3 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
+		23379CB72A16317800CCDBD3 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				23809B9F2A0A892A008CF97A /* SplashViewController.swift */,
+				23809BA02A0A892A008CF97A /* SplashView.xib */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		23379CB82A16319C00CCDBD3 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				23809B8B2A0A83F5008CF97A /* AppDelegate.swift */,
+				23809B8D2A0A83F5008CF97A /* SceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		23379CB92A1631C300CCDBD3 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				23809BA32A0A8986008CF97A /* MainViewController.swift */,
+				23809BA42A0A8986008CF97A /* MainView.xib */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		23379CBA2A1631D300CCDBD3 /* Select */ = {
+			isa = PBXGroup;
+			children = (
+				23809BB72A0A914D008CF97A /* SelectViewController.swift */,
+				23809BB82A0A914D008CF97A /* SelectView.xib */,
+				23809BBB2A0A942F008CF97A /* SelectTableViewCell.swift */,
+				23809BBC2A0A942F008CF97A /* SelectTableViewCell.xib */,
+			);
+			path = Select;
+			sourceTree = "<group>";
+		};
+		23379CBB2A16320C00CCDBD3 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				23809BAB2A0A89E6008CF97A /* DetailViewController.swift */,
+				23809BAC2A0A89E6008CF97A /* DetailView.xib */,
+				23809BBF2A0A94AC008CF97A /* DetailTableViewCell.swift */,
+				23809BC02A0A94AC008CF97A /* DetailTableViewCell.xib */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		23809B7F2A0A83F5008CF97A = {
 			isa = PBXGroup;
 			children = (
@@ -74,20 +148,10 @@
 		23809B8A2A0A83F5008CF97A /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				23809B8B2A0A83F5008CF97A /* AppDelegate.swift */,
-				23809B8D2A0A83F5008CF97A /* SceneDelegate.swift */,
-				23809B9F2A0A892A008CF97A /* SplashViewController.swift */,
-				23809BA02A0A892A008CF97A /* SplashView.xib */,
-				23809BA32A0A8986008CF97A /* MainViewController.swift */,
-				23809BA42A0A8986008CF97A /* MainView.xib */,
-				23809BB72A0A914D008CF97A /* SelectViewController.swift */,
-				23809BB82A0A914D008CF97A /* SelectView.xib */,
-				23809BBB2A0A942F008CF97A /* SelectTableViewCell.swift */,
-				23809BBC2A0A942F008CF97A /* SelectTableViewCell.xib */,
-				23809BAB2A0A89E6008CF97A /* DetailViewController.swift */,
-				23809BAC2A0A89E6008CF97A /* DetailView.xib */,
-				23809BBF2A0A94AC008CF97A /* DetailTableViewCell.swift */,
-				23809BC02A0A94AC008CF97A /* DetailTableViewCell.xib */,
+				23379CB82A16319C00CCDBD3 /* Delegates */,
+				23379CB32A16310E00CCDBD3 /* Models */,
+				23379CB42A16312400CCDBD3 /* ViewControllers */,
+				23379CB52A16314D00CCDBD3 /* Extentions */,
 				23809B942A0A83F7008CF97A /* Assets.xcassets */,
 				23809B992A0A83F7008CF97A /* Info.plist */,
 			);
