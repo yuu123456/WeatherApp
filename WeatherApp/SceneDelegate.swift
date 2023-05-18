@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  WeatherApp
 //
-//  Created by 秋山悠 on 2023/05/09.
+
 //
 
 import UIKit
@@ -10,6 +10,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    //UINavigationController型の変数宣言
+    var navigationController: UINavigationController?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -17,6 +19,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+
+        //UINavigationControllerの生成（これがないと、プッシュ遷移できない）
+        let viewController: UIViewController = SplashViewController()
+        navigationController = UINavigationController(rootViewController: viewController)
+        self.window = UIWindow(windowScene: scene as! UIWindowScene)
+        self.window?.rootViewController = navigationController
+        self.window?.makeKeyAndVisible()
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
