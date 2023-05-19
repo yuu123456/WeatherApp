@@ -51,7 +51,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <buttonConfiguration key="configuration" style="plain"/>
                     <connections>
-                        <action selector="closeButton:" destination="-1" eventType="touchUpInside" id="qyP-SM-fMt"/>
+                        <action selector="tapcloseButton:" destination="-1" eventType="touchUpInside" id="vDI-PI-f3t"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="グラフ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pY9-Tc-e34">

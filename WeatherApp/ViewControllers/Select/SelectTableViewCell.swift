@@ -2,7 +2,6 @@
 //  SelectTableViewCell.swift
 //  WeatherApp
 //
-//  Created by 秋山悠 on 2023/05/09.
 //
 
 import UIKit
@@ -14,13 +13,10 @@ class SelectTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
 }
