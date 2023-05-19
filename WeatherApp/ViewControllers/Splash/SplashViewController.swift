@@ -16,8 +16,6 @@ class SplashViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -34,22 +32,8 @@ class SplashViewController: UIViewController {
             self.cloudImage.transform = CGAffineTransform(scaleX: 10, y: 10)
         }) {_ in
             let nextVC = MainViewController() as UIViewController
-//            let nextVC = UINavigationController(rootViewController: MainViewController())
             self.navigationController?.pushViewController(nextVC, animated: true)
-//            self.present(nextVC, animated: true)
             print("OK")
         }
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

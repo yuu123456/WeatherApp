@@ -11,7 +11,7 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var detailTableView: UITableView!
 
-    @IBAction func closeButton(_ sender: Any) {
+    @IBAction func tapCloseButton(_ sender: Any) {
         self.dismiss(animated: true)
     }
 
@@ -25,18 +25,6 @@ class DetailViewController: UIViewController {
 
         detailTableView.rowHeight = 100
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
