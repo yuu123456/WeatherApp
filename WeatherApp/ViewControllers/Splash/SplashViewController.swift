@@ -26,7 +26,7 @@ class SplashViewController: UIViewController {
         UIView.animate(withDuration: 0.5, delay: 0, options: .repeat, animations: {
             self.boltImage.alpha = 0
             self.snowImage.frame.origin.x -= 20
-            self.sunImage.
+//            self.sunImage.
         })
 
         UIView.animate(withDuration: 3.0, delay: 0.5, animations: {
