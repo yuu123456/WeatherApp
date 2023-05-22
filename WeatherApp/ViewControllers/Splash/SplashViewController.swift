@@ -14,6 +14,10 @@ class SplashViewController: UIViewController {
     @IBOutlet weak var boltImage: UIImageView!
     @IBOutlet weak var snowImage: UIImageView!
 
+    //画像を動かす範囲指定
+    var imageMoveXRange: CGFloat = 20
+    var imageMoveYRange: CGFloat = 20
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black
@@ -24,7 +28,7 @@ class SplashViewController: UIViewController {
 
         UIView.animate(withDuration: 0.5, delay: 0, options: .repeat, animations: {
             self.boltImage.alpha = 0
-            self.snowImage.frame.origin.x -= 20
+            self.snowImage.frame.origin.x -= self.imageMoveXRange
             self.sunImage.alpha = 0.5
         })
 
@@ -33,9 +37,9 @@ class SplashViewController: UIViewController {
         })
 
         UIView.animate(withDuration: 0.5, delay: 0, options: [.autoreverse, .repeat], animations: {
-            self.rainImage.center.y -= 20
+            self.rainImage.center.y -= self.imageMoveYRange
         }) {_ in
-            self.rainImage.center.y += 20
+            self.rainImage.center.y += self.imageMoveYRange
         }
 
         UIView.animate(withDuration: 1.0, delay: 0.8, animations: {
