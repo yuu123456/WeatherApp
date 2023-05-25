@@ -11,32 +11,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var selectButton: UIButton!
     @IBOutlet weak var getLocationButton: UIButton!
 
-    let buttonCornerRadius: CGFloat = 8
-    let buttonBGColor = UIColor.orange
-    let buttonTintColor = UIColor.white
     let buttonLayoutX: CGFloat = 100
-    let buttonLayoutY: CGFloat = 100
-
-    //Buttonのレイアウトを設定
-    func buttonLayout(button: UIButton) {
-        // ボタンの制約を設定
-        button.translatesAutoresizingMaskIntoConstraints = false
-
-        //各プロパティを宣言
-        let centerXConstraint = button.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        var centerYConstraint: NSLayoutConstraint = NSLayoutConstraint()
-
-        let leading = button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: buttonLayoutX)
-        let trailing = button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -buttonLayoutX)
-
-        if button == selectButton {
-            centerYConstraint = button.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -buttonLayoutY)
-        } else if button == getLocationButton {
-            centerYConstraint = button.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: buttonLayoutY)
-        }
-        // 制約を有効にする
-        NSLayoutConstraint.activate([centerXConstraint, centerYConstraint, leading, trailing])
-    }
+    let buttonLayoutY: CGFloat = 40
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +20,18 @@ class MainViewController: UIViewController {
         selectButton.setup(image: UIImage(systemName: "list.bullet")!)
         getLocationButton.setup(image: UIImage(systemName: "location")!)
 
-        buttonLayout(button: selectButton)
-        buttonLayout(button: getLocationButton)
+        selectButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([selectButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     selectButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -buttonLayoutY),
+                                     selectButton.heightAnchor.constraint(equalTo: selectButton.widthAnchor, multiplier: 0.3)])
+        getLocationButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([getLocationButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     getLocationButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: buttonLayoutY)])
+        //レイアウトの制約を適用後に、selectButtonのサイズを取得し、getLocationButtonに反映する。
+        view.layoutIfNeeded()
+        //先に制約を適用しない場合、下記の制約が適用されない。
+        NSLayoutConstraint.activate([getLocationButton.widthAnchor.constraint(equalToConstant: selectButton.frame.width),
+                                     getLocationButton.heightAnchor.constraint(equalToConstant: selectButton.frame.height)])
 
     }
 
