@@ -11,9 +11,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var selectButton: UIButton!
     @IBOutlet weak var getLocationButton: UIButton!
 
-    let selectButtonImage = UIImage(systemName: "list.bullet")
-    let getLocationButtonImage = UIImage(systemName: "location")
-
     let buttonCornerRadius: CGFloat = 8
     let buttonBGColor = UIColor.orange
     let buttonTintColor = UIColor.white
@@ -41,28 +38,12 @@ class MainViewController: UIViewController {
         NSLayoutConstraint.activate([centerXConstraint, centerYConstraint, leading, trailing])
     }
 
-    //Buttonの外観プロパティを設定
-    func buttonSetting(button: UIButton) {
-        button.backgroundColor = buttonBGColor
-        button.tintColor = buttonTintColor
-
-        button.layer.cornerRadius = buttonCornerRadius
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-
-        if button == selectButton {
-            button.setImage(selectButtonImage, for: .normal)
-        } else if button == getLocationButton {
-            button.setImage(getLocationButtonImage, for: .normal)
-        }
-
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        buttonSetting(button: selectButton)
-        buttonSetting(button: getLocationButton)
+        selectButton.setup(image: UIImage(systemName: "list.bullet")!)
+        getLocationButton.setup(image: UIImage(systemName: "location")!)
+
         buttonLayout(button: selectButton)
         buttonLayout(button: getLocationButton)
 
