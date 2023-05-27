@@ -17,6 +17,13 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationController?.navigationBar.backgroundColor = .orange
+        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationItem.title = "Home"
+        //navigationBarの戻るボタンを隠す（スプラッシュ画面に戻らないように）
+        self.navigationItem.hidesBackButton = true
+
         selectButton.setup(image: UIImage(systemName: "list.bullet")!)
         getLocationButton.setup(image: UIImage(systemName: "location")!)
 
