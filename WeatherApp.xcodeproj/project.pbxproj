@@ -22,6 +22,7 @@
 		23809BBE2A0A942F008CF97A /* SelectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23809BBC2A0A942F008CF97A /* SelectTableViewCell.xib */; };
 		23809BC12A0A94AC008CF97A /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809BBF2A0A94AC008CF97A /* DetailTableViewCell.swift */; };
 		23809BC22A0A94AC008CF97A /* DetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23809BC02A0A94AC008CF97A /* DetailTableViewCell.xib */; };
+		23D1C6C82A1F93B300126E54 /* ExtensionUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D1C6C72A1F93B300126E54 /* ExtensionUIButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		23809BBC2A0A942F008CF97A /* SelectTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectTableViewCell.xib; sourceTree = "<group>"; };
 		23809BBF2A0A94AC008CF97A /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		23809BC02A0A94AC008CF97A /* DetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailTableViewCell.xib; sourceTree = "<group>"; };
+		23D1C6C72A1F93B300126E54 /* ExtensionUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,11 +75,12 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		23379CB52A16314D00CCDBD3 /* Extentions */ = {
+		23379CB52A16314D00CCDBD3 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				23D1C6C72A1F93B300126E54 /* ExtensionUIButton.swift */,
 			);
-			path = Extentions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		23379CB72A16317800CCDBD3 /* Splash */ = {
@@ -151,7 +154,7 @@
 				23379CB82A16319C00CCDBD3 /* Delegates */,
 				23379CB32A16310E00CCDBD3 /* Models */,
 				23379CB42A16312400CCDBD3 /* ViewControllers */,
-				23379CB52A16314D00CCDBD3 /* Extentions */,
+				23379CB52A16314D00CCDBD3 /* Extensions */,
 				23809B942A0A83F7008CF97A /* Assets.xcassets */,
 				23809B992A0A83F7008CF97A /* Info.plist */,
 			);
@@ -238,6 +241,7 @@
 				23809BC12A0A94AC008CF97A /* DetailTableViewCell.swift in Sources */,
 				23809BAD2A0A89E6008CF97A /* DetailViewController.swift in Sources */,
 				23809BA12A0A892A008CF97A /* SplashViewController.swift in Sources */,
+				23D1C6C82A1F93B300126E54 /* ExtensionUIButton.swift in Sources */,
 				23809BB92A0A914D008CF97A /* SelectViewController.swift in Sources */,
 				23809BA52A0A8986008CF97A /* MainViewController.swift in Sources */,
 				23809BBD2A0A942F008CF97A /* SelectTableViewCell.swift in Sources */,
