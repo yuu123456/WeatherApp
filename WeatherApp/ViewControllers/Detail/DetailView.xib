@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController" customModule="WeatherApp" customModuleProvider="target">
             <connections>
+                <outlet property="chartView" destination="FgV-FZ-vso" id="ik0-u2-rpN"/>
                 <outlet property="dateLabel" destination="UEL-Cr-TD3" id="9t6-Rq-zgs"/>
                 <outlet property="detailTableView" destination="y70-W6-E6e" id="WPN-X0-Hhj"/>
                 <outlet property="locationLabel" destination="GAs-th-6UZ" id="AoR-Jt-so0"/>
@@ -35,7 +36,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="y70-W6-E6e">
-                    <rect key="frame" x="10" y="265.5" width="355" height="371.5"/>
+                    <rect key="frame" x="10" y="337.5" width="355" height="299.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="close" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgC-7z-TAS">
@@ -49,37 +50,34 @@
                         <action selector="tapCloseButton:" destination="-1" eventType="touchUpInside" id="6XQ-ip-IOm"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="グラフ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pY9-Tc-e34">
-                    <rect key="frame" x="10" y="105.5" width="355" height="150"/>
-                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="150" id="Trk-jf-ZSw"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="鹿児島県" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GAs-th-6UZ">
                     <rect key="frame" x="131" y="10" width="113.5" height="33.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FgV-FZ-vso" customClass="LineChartView" customModule="Charts">
+                    <rect key="frame" x="10" y="115" width="355" height="200"/>
+                    <color key="backgroundColor" systemColor="systemGray2Color"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="200" id="CQc-c9-7dt"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="JgC-7z-TAS" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="3gV-EN-g3V"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="y70-W6-E6e" secondAttribute="trailing" constant="10" id="7Yj-9F-6QG"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="FgV-FZ-vso" secondAttribute="trailing" constant="10" id="A1L-Fg-ysx"/>
                 <constraint firstItem="GAs-th-6UZ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="DGQ-3t-b1b"/>
-                <constraint firstItem="y70-W6-E6e" firstAttribute="top" secondItem="pY9-Tc-e34" secondAttribute="bottom" constant="10" id="HZJ-cX-vxZ"/>
-                <constraint firstItem="pY9-Tc-e34" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="LAV-0s-LcE"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pY9-Tc-e34" secondAttribute="trailing" constant="10" id="NF6-Tu-oiA"/>
                 <constraint firstItem="JgC-7z-TAS" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Vpu-mQ-wFl"/>
                 <constraint firstItem="UEL-Cr-TD3" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Zwe-5S-Opq"/>
-                <constraint firstItem="pY9-Tc-e34" firstAttribute="top" secondItem="00Q-de-yfy" secondAttribute="bottom" id="fRh-DR-Bw0"/>
                 <constraint firstItem="00Q-de-yfy" firstAttribute="top" secondItem="UEL-Cr-TD3" secondAttribute="bottom" constant="10" id="fa4-fV-C0I"/>
                 <constraint firstItem="00Q-de-yfy" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="k9U-lg-tJZ"/>
+                <constraint firstItem="FgV-FZ-vso" firstAttribute="top" secondItem="00Q-de-yfy" secondAttribute="bottom" constant="9.5" id="kA9-j2-SLM"/>
+                <constraint firstItem="FgV-FZ-vso" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="qVh-WJ-Kpj"/>
+                <constraint firstItem="y70-W6-E6e" firstAttribute="top" secondItem="FgV-FZ-vso" secondAttribute="bottom" constant="22.5" id="rxL-hr-kem"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="y70-W6-E6e" secondAttribute="bottom" constant="10" id="tKv-dd-mit"/>
                 <constraint firstItem="GAs-th-6UZ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tPh-kZ-qLZ"/>
                 <constraint firstItem="UEL-Cr-TD3" firstAttribute="top" secondItem="GAs-th-6UZ" secondAttribute="bottom" constant="10" id="tUP-8b-ClY"/>
@@ -92,6 +90,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

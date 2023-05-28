@@ -10,6 +10,7 @@
 		232BF3572A22E3880042FEF3 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF3562A22E3880042FEF3 /* DataModel.swift */; };
 		232BF3592A2321470042FEF3 /* KariData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF3582A2321470042FEF3 /* KariData.swift */; };
 		232BF35B2A2321E40042FEF3 /* WeatherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF35A2A2321E40042FEF3 /* WeatherType.swift */; };
+		232BF36B2A2351910042FEF3 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 232BF36A2A2351910042FEF3 /* Charts */; };
 		23809B8C2A0A83F5008CF97A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809B8B2A0A83F5008CF97A /* AppDelegate.swift */; };
 		23809B8E2A0A83F5008CF97A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809B8D2A0A83F5008CF97A /* SceneDelegate.swift */; };
 		23809B952A0A83F7008CF97A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23809B942A0A83F7008CF97A /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				232BF36B2A2351910042FEF3 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +188,9 @@
 			dependencies = (
 			);
 			name = WeatherApp;
+			packageProductDependencies = (
+				232BF36A2A2351910042FEF3 /* Charts */,
+			);
 			productName = WeatherApp;
 			productReference = 23809B882A0A83F5008CF97A /* WeatherApp.app */;
 			productType = "com.apple.product-type.application";
@@ -214,6 +219,9 @@
 				Base,
 			);
 			mainGroup = 23809B7F2A0A83F5008CF97A;
+			packageReferences = (
+				232BF3692A2351910042FEF3 /* XCRemoteSwiftPackageReference "Charts" */,
+			);
 			productRefGroup = 23809B892A0A83F5008CF97A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -459,6 +467,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		232BF3692A2351910042FEF3 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		232BF36A2A2351910042FEF3 /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 232BF3692A2351910042FEF3 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 23809B802A0A83F5008CF97A /* Project object */;
 }
