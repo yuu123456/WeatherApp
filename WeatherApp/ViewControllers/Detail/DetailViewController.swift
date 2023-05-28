@@ -10,6 +10,7 @@ import UIKit
 class DetailViewController: UIViewController {
 
     var dataModel: DataModel?
+    var kariData: KariData? = KariData()
 
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -44,7 +45,17 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! DetailTableViewCell
+
+        if let model = dataModel,
+           let data = kariData{
+            cell.timeLabel.text = data.timeArray[indexPath.row]
+            cell.weatherImage.image = model.getWeatherImage(weather: data.weatherArray[indexPath.row])
+            cell.maxTempLabel.text = "最高気温：" + String(data.maxTempArray[indexPath.row]) + "℃"
+            cell.minTempLabel.text = "最低気温：" + String(data.minTempArray[indexPath.row]) + "℃"
+            cell.humidLabel.text = "湿度：" + String(data.humidArray[indexPath.row]) + "％"
+        }
+        
         return cell
     }
 
