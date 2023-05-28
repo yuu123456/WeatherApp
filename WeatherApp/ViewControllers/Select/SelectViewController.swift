@@ -22,6 +22,8 @@ class SelectViewController: UIViewController {
                        "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県",
                        "鹿児島県", "沖縄県"]
 
+    var selectDataModel: SelectDataModel?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,10 +48,13 @@ extension SelectViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let selectLocation = prefectures[indexPath.row]
+        let selectLocation = prefectures[indexPath.row]
+
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let nextVC = DetailViewController() as UIViewController
+        let nextVC = DetailViewController(nibName: "DetailView", bundle: nil)
+        nextVC.selectDataModel = SelectDataModel(location: selectLocation)
+
         self.present(nextVC, animated: true)
     }
 
