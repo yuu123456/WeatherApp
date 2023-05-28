@@ -13,8 +13,9 @@ struct KariData {
     mutating func setTimeArray() -> [String] {
         let formatter = DateFormatter()
         formatter.dateFormat = "H:mm"
-        // データ開始時刻（9時から。実際は、天気確認時の直近の時間？）
-        let startTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
+        // データ開始時刻（天気確認時の直近の時間のみ）
+        let startTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: Date()), minute: 0, second: 0, of: Date())!
+
         // データ数
         let dataCount = 9
         // 時間データを生成して配列に追加
