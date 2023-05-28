@@ -9,8 +9,10 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    var selectDataModel: SelectDataModel?
+    var dataModel: DataModel?
 
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailTableView: UITableView!
 
     @IBAction func tapCloseButton(_ sender: Any) {
@@ -20,10 +22,11 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let model = selectDataModel {
-            print("渡された値は：\(model.location!)")
+        if let model = dataModel {
+            locationLabel.text = model.location
+            dateLabel.text = model.getCurrentFormattedDate()
         } else {
-            print("nilです")
+            print("値渡し失敗です")
         }
 
         detailTableView.delegate = self

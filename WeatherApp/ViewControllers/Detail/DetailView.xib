@@ -11,7 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController" customModule="WeatherApp" customModuleProvider="target">
             <connections>
+                <outlet property="dateLabel" destination="UEL-Cr-TD3" id="9t6-Rq-zgs"/>
                 <outlet property="detailTableView" destination="y70-W6-E6e" id="WPN-X0-Hhj"/>
+                <outlet property="locationLabel" destination="GAs-th-6UZ" id="AoR-Jt-so0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
