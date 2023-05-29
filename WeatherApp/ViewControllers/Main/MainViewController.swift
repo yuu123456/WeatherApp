@@ -17,6 +17,12 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //tableViewスクロール時だけステータスバーがナビゲーションバー色になるのを防止する
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        //tableViewスクロール時に色が変更されるのを防止する
+        self.navigationController?.navigationBar.barTintColor = .orange
+
         self.navigationController?.navigationBar.backgroundColor = .orange
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
