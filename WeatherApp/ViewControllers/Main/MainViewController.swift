@@ -17,15 +17,14 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //tableViewスクロール時だけステータスバーがナビゲーションバー色になるのを防止する
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        //tableViewスクロール時に色が変更されるのを防止する
-        self.navigationController?.navigationBar.barTintColor = .orange
-
-        self.navigationController?.navigationBar.backgroundColor = .orange
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .orange
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationItem.title = "Home"
         //navigationBarの戻るボタンを隠す（スプラッシュ画面に戻らないように）
         self.navigationItem.hidesBackButton = true
