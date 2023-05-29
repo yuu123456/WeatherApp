@@ -95,10 +95,9 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! DetailTableViewCell
 
-        if let model = dataModel,
-           let data = kariData{
+        if let data = kariData{
             cell.timeLabel.text = data.timeArray[indexPath.row]
-            cell.weatherImage.image = model.getWeatherImage(weather: data.weatherArray[indexPath.row])
+            cell.weatherImage.image =  data.weatherArray[indexPath.row].getWeatherImage()
             cell.maxTempLabel.text = "最高気温：" + String(data.maxTempArray[indexPath.row]) + "℃"
             cell.minTempLabel.text = "最低気温：" + String(data.minTempArray[indexPath.row]) + "℃"
             cell.humidLabel.text = "湿度：" + String(data.humidArray[indexPath.row]) + "％"
