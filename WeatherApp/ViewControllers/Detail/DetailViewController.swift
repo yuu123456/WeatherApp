@@ -32,7 +32,7 @@ class DetailViewController: UIViewController {
 
         if let model = dataModel {
             locationLabel.text = model.location
-            dateLabel.text = model.getCurrentFormattedDate()
+            dateLabel.text = Date().getCurrentFormattedDate()
         } else {
             print("値渡し失敗です")
         }
