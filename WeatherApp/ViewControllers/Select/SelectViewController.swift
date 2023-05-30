@@ -25,6 +25,8 @@ class SelectViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.title = "都道府県の選択"
+
         selectTableView.register(UINib(nibName: "SelectTableViewCell", bundle: nil), forCellReuseIdentifier: "customCell")
 
         selectTableView.dataSource = self
