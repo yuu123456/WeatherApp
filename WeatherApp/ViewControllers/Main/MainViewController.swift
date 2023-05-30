@@ -17,9 +17,14 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController?.navigationBar.backgroundColor = .orange
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .orange
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationItem.title = "Home"
         //navigationBarの戻るボタンを隠す（スプラッシュ画面に戻らないように）
         self.navigationItem.hidesBackButton = true
