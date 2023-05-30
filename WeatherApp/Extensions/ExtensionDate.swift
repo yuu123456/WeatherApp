@@ -8,12 +8,11 @@
 import Foundation
 
 extension Date {
-    //現在の日付を変換する
+    //日付を"yyyy年MM月dd日"形式に変換する
     func getCurrentFormattedDate() -> String {
-        let today = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy年MM月dd日"
-        let date = formatter.string(from: today)
+        let date = formatter.string(from: self)
         return date
     }
 }
