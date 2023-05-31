@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		232BF3572A22E3880042FEF3 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF3562A22E3880042FEF3 /* DataModel.swift */; };
 		232BF3592A2321470042FEF3 /* KariData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF3582A2321470042FEF3 /* KariData.swift */; };
 		232BF35B2A2321E40042FEF3 /* WeatherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF35A2A2321E40042FEF3 /* WeatherType.swift */; };
 		232BF36B2A2351910042FEF3 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 232BF36A2A2351910042FEF3 /* Charts */; };
@@ -32,7 +31,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		232BF3562A22E3880042FEF3 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		232BF3582A2321470042FEF3 /* KariData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KariData.swift; sourceTree = "<group>"; };
 		232BF35A2A2321E40042FEF3 /* WeatherType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherType.swift; sourceTree = "<group>"; };
 		232BF36C2A25849E0042FEF3 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
@@ -72,7 +70,6 @@
 		23379CB32A16310E00CCDBD3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				232BF3562A22E3880042FEF3 /* DataModel.swift */,
 				232BF3582A2321470042FEF3 /* KariData.swift */,
 				232BF35A2A2321E40042FEF3 /* WeatherType.swift */,
 			);
@@ -271,7 +268,6 @@
 				23809BA52A0A8986008CF97A /* MainViewController.swift in Sources */,
 				23809BBD2A0A942F008CF97A /* SelectTableViewCell.swift in Sources */,
 				232BF35B2A2321E40042FEF3 /* WeatherType.swift in Sources */,
-				232BF3572A22E3880042FEF3 /* DataModel.swift in Sources */,
 				232BF36D2A25849E0042FEF3 /* ExtensionDate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

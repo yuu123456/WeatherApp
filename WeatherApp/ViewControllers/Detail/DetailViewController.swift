@@ -10,7 +10,7 @@ import Charts
 
 class DetailViewController: UIViewController {
 
-    var dataModel: DataModel?
+    var location: String?
     var kariData: KariData? = KariData()
 
     @IBOutlet weak var locationLabel: UILabel!
@@ -30,8 +30,8 @@ class DetailViewController: UIViewController {
         kariData?.setTimeArray()
         displayChart(data: kariData!.rainyPercentArray)
 
-        if let model = dataModel {
-            locationLabel.text = model.location
+        if let location = location {
+            locationLabel.text = location
             dateLabel.text = Date().kanjiyyyyMMdd
         } else {
             print("値渡し失敗です")
