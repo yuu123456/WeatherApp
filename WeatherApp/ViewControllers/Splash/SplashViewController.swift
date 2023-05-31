@@ -15,8 +15,8 @@ class SplashViewController: UIViewController {
     @IBOutlet weak var snowImage: UIImageView!
 
     //画像を動かす範囲指定
-    var imageMoveXRange: CGFloat = 20
-    var imageMoveYRange: CGFloat = 20
+    private var imageMoveXRange: CGFloat = 20
+    private var imageMoveYRange: CGFloat = 20
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,9 +45,8 @@ class SplashViewController: UIViewController {
         UIView.animate(withDuration: 1.0, delay: 0.8, animations: {
             self.cloudImage.transform = CGAffineTransform(scaleX: 10, y: 10)
         }) {_ in
-            let nextVC = MainViewController() as UIViewController
-            self.navigationController?.pushViewController(nextVC, animated: true)
-            print("OK")
+            let mainView = MainViewController() as UIViewController
+            self.navigationController?.pushViewController(mainView, animated: true)
         }
     }
 }

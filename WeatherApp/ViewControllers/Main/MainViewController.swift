@@ -48,12 +48,12 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func tapLocationSelectButton(_ sender: Any) {
-        let nextVC = SelectViewController() as UIViewController
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        let selectView = SelectViewController() as UIViewController
+        self.navigationController?.pushViewController(selectView, animated: true)
     }
 
     @IBAction func tapLocationGetButton(_ sender: Any) {
-        let nextVC = DetailViewController() as UIViewController
-        self.present(nextVC, animated: true)
+        let detailView = DetailViewController() as UIViewController
+        self.present(detailView, animated: true)
     }
 }

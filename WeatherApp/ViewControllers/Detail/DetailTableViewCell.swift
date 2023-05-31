@@ -19,6 +19,10 @@ class DetailTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        maxTempLabel.textColor = .red
+        minTempLabel.textColor = .blue
+        humidLabel.textColor = .green
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
