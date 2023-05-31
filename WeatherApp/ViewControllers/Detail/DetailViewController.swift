@@ -10,15 +10,15 @@ import Charts
 
 class DetailViewController: UIViewController {
 
-    var dataModel: DataModel?
-    var kariData: KariData? = KariData()
+    var location: String?
+    private var kariData: KariData? = KariData()
 
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailTableView: UITableView!
     @IBOutlet weak var chartView: LineChartView!
 
-    var chartDataSet: LineChartDataSet!
+    private var chartDataSet: LineChartDataSet!
     
     @IBAction func tapCloseButton(_ sender: Any) {
         self.dismiss(animated: true)
@@ -30,9 +30,9 @@ class DetailViewController: UIViewController {
         kariData?.setTimeArray()
         displayChart(data: kariData!.rainyPercentArray)
 
-        if let model = dataModel {
-            locationLabel.text = model.location
-            dateLabel.text = Date().getCurrentFormattedDate()
+        if let location = location {
+            locationLabel.text = location
+            dateLabel.text = Date().japaneseDateStyle
         } else {
             print("値渡し失敗です")
         }
@@ -40,12 +40,12 @@ class DetailViewController: UIViewController {
         detailTableView.delegate = self
         detailTableView.dataSource = self
 
-        detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "customCell")
+        detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
 
         detailTableView.rowHeight = 100
     }
 
-    func displayChart(data: [Double]) {
+    private func displayChart(data: [Double]) {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
 
@@ -93,7 +93,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! DetailTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
         if let data = kariData{
             cell.timeLabel.text = data.timeArray[indexPath.row]

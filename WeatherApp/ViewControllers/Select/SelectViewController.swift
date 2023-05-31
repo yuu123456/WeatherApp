@@ -11,7 +11,7 @@ class SelectViewController: UIViewController {
 
     @IBOutlet weak var selectTableView: UITableView!
 
-    let prefectures = ["北海道", "青森県", "岩手県", "宮城県", "秋田県",
+    private let prefectures = ["北海道", "青森県", "岩手県", "宮城県", "秋田県",
                        "山形県", "福島県", "茨城県", "栃木県", "群馬県",
                        "埼玉県", "千葉県", "東京都", "神奈川県","新潟県",
                        "富山県", "石川県", "福井県", "山梨県", "長野県",
@@ -22,14 +22,12 @@ class SelectViewController: UIViewController {
                        "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県",
                        "鹿児島県", "沖縄県"]
 
-    var dataModel: DataModel?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationItem.title = "都道府県の選択"
 
-        selectTableView.register(UINib(nibName: "SelectTableViewCell", bundle: nil), forCellReuseIdentifier: "customCell")
+        selectTableView.register(UINib(nibName: "SelectTableViewCell", bundle: nil), forCellReuseIdentifier: "SelectTableViewCell")
 
         selectTableView.dataSource = self
         selectTableView.delegate = self
@@ -42,7 +40,7 @@ extension SelectViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! SelectTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectTableViewCell", for: indexPath) as! SelectTableViewCell
         cell.label.text = prefectures[indexPath.row]
         return cell
     }
@@ -52,10 +50,10 @@ extension SelectViewController: UITableViewDelegate, UITableViewDataSource {
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let nextVC = DetailViewController(nibName: "DetailView", bundle: nil)
-        nextVC.dataModel = DataModel(location: selectLocation)
+        let detailView = DetailViewController(nibName: "DetailView", bundle: nil)
+        detailView.location = selectLocation
 
-        self.present(nextVC, animated: true)
+        self.present(detailView, animated: true)
     }
 
 }

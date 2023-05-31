@@ -20,11 +20,15 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        locationManager.delegate = self
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .orange
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        self.navigationController?.navigationBar.standardAppearance = appearance
 
-        self.navigationController?.navigationBar.backgroundColor = .orange
         self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationItem.title = "Home"
         //navigationBarの戻るボタンを隠す（スプラッシュ画面に戻らないように）
         self.navigationItem.hidesBackButton = true
@@ -48,13 +52,13 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func tapLocationSelectButton(_ sender: Any) {
-        let nextVC = SelectViewController() as UIViewController
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        let selectView = SelectViewController() as UIViewController
+        self.navigationController?.pushViewController(selectView, animated: true)
     }
 
     @IBAction func tapLocationGetButton(_ sender: Any) {
-        let nextVC = DetailViewController() as UIViewController
-        self.present(nextVC, animated: true)
+        let detailView = DetailViewController() as UIViewController
+        self.present(detailView, animated: true)
     }
 }
 
