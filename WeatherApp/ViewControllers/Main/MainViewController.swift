@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class MainViewController: UIViewController {
     @IBOutlet weak var selectButton: UIButton!
@@ -14,8 +15,12 @@ class MainViewController: UIViewController {
     let buttonLayoutX: CGFloat = 100
     let buttonLayoutY: CGFloat = 40
 
+    let locationManager = CLLocationManager()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        locationManager.delegate = self
 
         self.navigationController?.navigationBar.backgroundColor = .orange
         self.navigationController?.navigationBar.tintColor = .white
@@ -50,5 +55,61 @@ class MainViewController: UIViewController {
     @IBAction func tapLocationGetButton(_ sender: Any) {
         let nextVC = DetailViewController() as UIViewController
         self.present(nextVC, animated: true)
+    }
+}
+
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            print("位置情報の取得成功")
+            print("緯度：\(location.coordinate.latitude)")
+            print("経度：\(location.coordinate.longitude)")
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("位置情報の取得に失敗：\(error)")
+    }
+
+    // 位置情報の許可のステータス変更で呼ばれる
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("didChangeAuthorization status=\(status.description)")
+        switch status {
+        case .authorizedAlways:
+            manager.requestLocation()
+            break
+        case .authorizedWhenInUse:
+            manager.requestLocation()
+            break
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+            break
+        case .restricted:
+            break
+        case .denied:
+            break
+        default:
+            break
+        }
+    }
+}
+
+//位置情報取得に関するステータスを文字列で返す
+extension CLAuthorizationStatus {
+    var description: String {
+        switch self {
+        case .notDetermined:
+            return "未選択"
+        case .restricted:
+            return "ペアレンタルコントロールなどの影響で制限中"
+        case .denied:
+            return "利用拒否"
+        case .authorizedAlways:
+            return "常に利用許可"
+        case .authorizedWhenInUse:
+            return "使用中のみ利用許可"
+        default:
+            return ""
+        }
     }
 }
