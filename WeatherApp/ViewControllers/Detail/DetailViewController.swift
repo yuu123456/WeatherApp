@@ -32,7 +32,7 @@ class DetailViewController: UIViewController {
 
         if let location = location {
             locationLabel.text = location
-            dateLabel.text = Date().kanjiyyyyMMdd
+            dateLabel.text = Date().japaneseDateStyle
         } else {
             print("値渡し失敗です")
         }
