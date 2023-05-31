@@ -45,9 +45,8 @@ class SplashViewController: UIViewController {
         UIView.animate(withDuration: 1.0, delay: 0.8, animations: {
             self.cloudImage.transform = CGAffineTransform(scaleX: 10, y: 10)
         }) {_ in
-            let nextVC = MainViewController() as UIViewController
-            self.navigationController?.pushViewController(nextVC, animated: true)
-            print("OK")
+            let mainView = MainViewController() as UIViewController
+            self.navigationController?.pushViewController(mainView, animated: true)
         }
     }
 }

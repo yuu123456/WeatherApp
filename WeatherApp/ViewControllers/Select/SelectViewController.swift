@@ -52,10 +52,10 @@ extension SelectViewController: UITableViewDelegate, UITableViewDataSource {
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let nextVC = DetailViewController(nibName: "DetailView", bundle: nil)
-        nextVC.dataModel = DataModel(location: selectLocation)
+        let detailView = DetailViewController(nibName: "DetailView", bundle: nil)
+        detailView.dataModel = DataModel(location: selectLocation)
 
-        self.present(nextVC, animated: true)
+        self.present(detailView, animated: true)
     }
 
 }
