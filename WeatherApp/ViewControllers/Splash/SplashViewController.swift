@@ -15,8 +15,8 @@ class SplashViewController: UIViewController {
     @IBOutlet weak var snowImage: UIImageView!
 
     //画像を動かす範囲指定
-    var imageMoveXRange: CGFloat = 20
-    var imageMoveYRange: CGFloat = 20
+    private var imageMoveXRange: CGFloat = 20
+    private var imageMoveYRange: CGFloat = 20
 
     override func viewDidLoad() {
         super.viewDidLoad()

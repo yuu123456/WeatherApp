@@ -11,14 +11,14 @@ import Charts
 class DetailViewController: UIViewController {
 
     var location: String?
-    var kariData: KariData? = KariData()
+    private var kariData: KariData? = KariData()
 
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailTableView: UITableView!
     @IBOutlet weak var chartView: LineChartView!
 
-    var chartDataSet: LineChartDataSet!
+    private var chartDataSet: LineChartDataSet!
     
     @IBAction func tapCloseButton(_ sender: Any) {
         self.dismiss(animated: true)
@@ -45,7 +45,7 @@ class DetailViewController: UIViewController {
         detailTableView.rowHeight = 100
     }
 
-    func displayChart(data: [Double]) {
+    private func displayChart(data: [Double]) {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
 
