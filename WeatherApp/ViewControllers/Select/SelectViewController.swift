@@ -27,7 +27,7 @@ class SelectViewController: UIViewController {
 
         self.navigationItem.title = "都道府県の選択"
 
-        selectTableView.register(UINib(nibName: "SelectTableViewCell", bundle: nil), forCellReuseIdentifier: "customCell")
+        selectTableView.register(UINib(nibName: "SelectTableViewCell", bundle: nil), forCellReuseIdentifier: "SelectTableViewCell")
 
         selectTableView.dataSource = self
         selectTableView.delegate = self
@@ -40,7 +40,7 @@ extension SelectViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! SelectTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectTableViewCell", for: indexPath) as! SelectTableViewCell
         cell.label.text = prefectures[indexPath.row]
         return cell
     }

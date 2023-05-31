@@ -40,7 +40,7 @@ class DetailViewController: UIViewController {
         detailTableView.delegate = self
         detailTableView.dataSource = self
 
-        detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "customCell")
+        detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
 
         detailTableView.rowHeight = 100
     }
@@ -93,7 +93,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! DetailTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
         if let data = kariData{
             cell.timeLabel.text = data.timeArray[indexPath.row]
