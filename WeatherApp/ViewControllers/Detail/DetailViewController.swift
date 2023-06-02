@@ -7,8 +7,11 @@
 
 import UIKit
 import Charts
+import CoreLocation
 
 class DetailViewController: UIViewController {
+
+    let locationManager = LocationManager()
 
     var location: String?
     private var kariData: KariData? = KariData()
@@ -27,6 +30,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        locationManager.delegate = self
+
         kariData?.setTimeArray()
         displayChart(data: kariData!.rainyPercentArray)
 
@@ -43,6 +48,15 @@ class DetailViewController: UIViewController {
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
 
         detailTableView.rowHeight = 100
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        locationManager.startUpdatingLocation()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        locationManager.stopUpdatingLocation()
     }
 
     private func displayChart(data: [Double]) {
@@ -105,6 +119,13 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
-
-
 }
+
+extension DetailViewController: LocationManagerDelegate {
+    func didUpdateLocation(_ location: CLLocation) {
+    }
+
+    func didFailWithError(_ error: Error) {
+    }
+}
+
