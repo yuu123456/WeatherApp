@@ -39,7 +39,7 @@ class DetailViewController: UIViewController {
             locationLabel.text = location
             dateLabel.text = Date().japaneseDateStyle
         } else {
-            print("値渡し失敗です")
+            print("Locationは選択されていません（Main画面から遷移しました）")
         }
 
         detailTableView.delegate = self
@@ -52,7 +52,11 @@ class DetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        locationManager.startUpdatingLocation()
+        //都道府県を選択していない場合に現在地を取得する。
+        if location == nil {
+            locationManager.startUpdatingLocation()
+        }
+
     }
 
     override func viewDidDisappear(_ animated: Bool) {
