@@ -12,7 +12,7 @@ protocol LocationManagerDelegate: AnyObject {
     func didFailWithError(_ error: Error)
 }
 
-class LocationManager: NSObject, CLLocationManagerDelegate {
+class LocationManager: NSObject {
     private let locationManager = CLLocationManager()
     weak var delegate: LocationManagerDelegate?
 
@@ -32,7 +32,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func stopUpdatingLocation() {
         locationManager.stopUpdatingLocation()
     }
+}
 
+extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             print("位置情報の取得成功")
