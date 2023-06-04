@@ -35,9 +35,10 @@ class DetailViewController: UIViewController {
         kariData?.setTimeArray()
         displayChart(data: kariData!.rainyPercentArray)
 
+        dateLabel.text = Date().japaneseDateStyle
+
         if let location = location {
             locationLabel.text = location
-            dateLabel.text = Date().japaneseDateStyle
         } else {
             print("Locationは選択されていません（Main画面から遷移しました）")
         }
