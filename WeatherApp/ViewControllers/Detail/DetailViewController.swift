@@ -5,9 +5,9 @@
 
 //
 
-import UIKit
 import Charts
 import CoreLocation
+import UIKit
 
 class DetailViewController: UIViewController {
 
@@ -22,7 +22,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var chartView: LineChartView!
 
     private var chartDataSet: LineChartDataSet!
-    
+
     @IBAction func tapCloseButton(_ sender: Any) {
         self.dismiss(animated: true)
     }
@@ -52,7 +52,7 @@ class DetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //都道府県を選択していない場合に現在地を取得する。
+        // 都道府県を選択していない場合に現在地を取得する。
         if location == nil {
             locationManager.startUpdatingLocation()
         }
@@ -81,12 +81,12 @@ class DetailViewController: UIViewController {
 
         // X軸(xAxis)
         chartView.xAxis.labelPosition = .bottom // x軸ラベルをグラフの下に表示する
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: kariData!.timeArray) //文字列のラベルを表示する
-        chartView.xAxis.granularity = 1 //ラベルが１単位になる
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: kariData!.timeArray) // 文字列のラベルを表示する
+        chartView.xAxis.granularity = 1 // ラベルが１単位になる
 
         // Y軸(leftAxis/rightAxis)
-        chartView.leftAxis.axisMaximum = 100 //y左軸最大値
-        chartView.leftAxis.axisMinimum = 0 //y左軸最小値
+        chartView.leftAxis.axisMaximum = 100 // y左軸最大値
+        chartView.leftAxis.axisMinimum = 0 // y左軸最小値
         chartView.leftAxis.labelCount = 6 // y軸ラベルの数
         chartView.rightAxis.enabled = false // 右側の縦軸ラベルを非表示
 
@@ -95,7 +95,7 @@ class DetailViewController: UIViewController {
         chartView.legend.enabled = false // グラフ名（凡例）を非表示
         chartView.pinchZoomEnabled = false // ピンチズーム不可
         chartView.doubleTapToZoomEnabled = false // ダブルタップズーム不可
-        //見切れ防止のためのオフセット
+        // 見切れ防止のためのオフセット
         chartView.extraTopOffset = 20
         chartView.extraRightOffset = 20
 
@@ -113,14 +113,14 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
-        if let data = kariData{
+        if let data = kariData {
             cell.timeLabel.text = data.timeArray[indexPath.row]
-            cell.weatherImage.image =  data.weatherArray[indexPath.row].getWeatherImage()
+            cell.weatherImage.image = data.weatherArray[indexPath.row].getWeatherImage()
             cell.maxTempLabel.text = "最高気温：" + String(data.maxTempArray[indexPath.row]) + "℃"
             cell.minTempLabel.text = "最低気温：" + String(data.minTempArray[indexPath.row]) + "℃"
             cell.humidLabel.text = "湿度：" + String(data.humidArray[indexPath.row]) + "％"
         }
-        
+
         return cell
     }
 }
@@ -132,4 +132,3 @@ extension DetailViewController: LocationManagerDelegate {
     func didFailWithError(_ error: Error) {
     }
 }
-

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//APIから取得した名称に変更する予定
+// APIから取得した名称に変更する予定
 enum WeatherType {
     case sunny
     case cloudy
@@ -14,7 +14,7 @@ enum WeatherType {
     case snowy
     case thunderstorm
 
-    //天気に応じたWeatherImageを返す
+    // 天気に応じたWeatherImageを返す
     func getWeatherImage() -> UIImage {
         switch self {
         case .sunny:

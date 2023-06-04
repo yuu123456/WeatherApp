@@ -8,7 +8,7 @@
 import Foundation
 
 extension DateFormatter {
-    //漢字表記yyyy年MM月dd日に変換
+    // 漢字表記yyyy年MM月dd日に変換
     static var formatJapaneseDate: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy年MM月dd日"

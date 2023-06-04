@@ -5,8 +5,8 @@
 
 //
 
-import UIKit
 import CoreLocation
+import UIKit
 
 class MainViewController: UIViewController {
     @IBOutlet weak var selectButton: UIButton!
@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
 
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationItem.title = "Home"
-        //navigationBarの戻るボタンを隠す（スプラッシュ画面に戻らないように）
+        // navigationBarの戻るボタンを隠す（スプラッシュ画面に戻らないように）
         self.navigationItem.hidesBackButton = true
 
         selectButton.setup(image: UIImage(systemName: "list.bullet")!)
@@ -46,9 +46,9 @@ class MainViewController: UIViewController {
         getLocationButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([getLocationButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                                      getLocationButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: buttonLayoutY)])
-        //レイアウトの制約を適用後に、selectButtonのサイズを取得し、getLocationButtonに反映する。
+        // レイアウトの制約を適用後に、selectButtonのサイズを取得し、getLocationButtonに反映する。
         view.layoutIfNeeded()
-        //先に制約を適用しない場合、下記の制約が適用されない。
+        // 先に制約を適用しない場合、下記の制約が適用されない。
         NSLayoutConstraint.activate([getLocationButton.widthAnchor.constraint(equalToConstant: selectButton.frame.width),
                                      getLocationButton.heightAnchor.constraint(equalToConstant: selectButton.frame.height)])
 

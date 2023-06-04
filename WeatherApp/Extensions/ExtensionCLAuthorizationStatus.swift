@@ -5,10 +5,10 @@
 
 //
 
-import Foundation
 import CoreLocation
+import Foundation
 
-//位置情報取得に関するステータスを文字列で返す
+// 位置情報取得に関するステータスを文字列で返す
 extension CLAuthorizationStatus {
     var description: String {
         switch self {
