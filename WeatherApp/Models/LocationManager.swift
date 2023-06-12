@@ -12,11 +12,16 @@ protocol LocationManagerDelegate: AnyObject {
     func didFailWithError(_ error: Error)
 }
 
-class LocationManager: NSObject {
+final class LocationManager: NSObject {
     private let locationManager = CLLocationManager()
     weak var delegate: LocationManagerDelegate?
 
-    override init() {
+    public static let shared = LocationManager()
+
+    var latitude: Double?
+    var longitude: Double?
+
+    private override init() {
         super.init()
         locationManager.delegate = self
     }
@@ -40,6 +45,8 @@ extension LocationManager: CLLocationManagerDelegate {
             print("位置情報の取得成功")
             print("緯度：\(location.coordinate.latitude)")
             print("経度：\(location.coordinate.longitude)")
+            latitude = location.coordinate.latitude
+            longitude = location.coordinate.longitude
             delegate?.didUpdateLocation(location)
         }
     }

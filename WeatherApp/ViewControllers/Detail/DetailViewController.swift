@@ -11,9 +11,10 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    let locationManager = LocationManager()
-
     var location: String?
+    var latitude: Double?
+    var longitude: Double?
+
     private var kariData: KariData? = KariData()
 
     @IBOutlet weak var locationLabel: UILabel!
@@ -30,8 +31,6 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        locationManager.delegate = self
-
         kariData?.setTimeArray()
         displayChart(data: kariData!.rainyPercentArray)
 
@@ -40,6 +39,7 @@ class DetailViewController: UIViewController {
         if let location = location {
             locationLabel.text = location
         } else {
+            locationLabel.text = "取得した現在地（仮）"
             print("Locationは選択されていません（Main画面から遷移しました）")
         }
 
@@ -49,19 +49,6 @@ class DetailViewController: UIViewController {
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
 
         detailTableView.rowHeight = 100
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // 都道府県を選択していない場合に現在地を取得する。
-        if location == nil {
-            locationManager.startUpdatingLocation()
-        }
-
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        locationManager.stopUpdatingLocation()
     }
 
     private func displayChart(data: [Double]) {
@@ -101,8 +88,6 @@ class DetailViewController: UIViewController {
         chartView.extraRightOffset = 20
 
         chartView.animate(xAxisDuration: 1) // 2秒かけて左から右にグラフをアニメーションで表示する
-
-//        view.addSubview(chartView)
     }
 }
 
@@ -123,13 +108,5 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         return cell
-    }
-}
-
-extension DetailViewController: LocationManagerDelegate {
-    func didUpdateLocation(_ location: CLLocation) {
-    }
-
-    func didFailWithError(_ error: Error) {
     }
 }

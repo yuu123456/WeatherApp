@@ -15,13 +15,10 @@ class MainViewController: UIViewController {
     private let buttonLayoutX: CGFloat = 100
     private let buttonLayoutY: CGFloat = 40
 
-    private let locationManager = LocationManager()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        locationManager.delegate = self
-        locationManager.requestLocationPermission()
+        LocationManager.shared.delegate = self
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -60,7 +57,11 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func tapLocationGetButton(_ sender: Any) {
-        let detailView = DetailViewController() as UIViewController
+        LocationManager.shared.requestLocationPermission()
+        LocationManager.shared.startUpdatingLocation()
+        let detailView = DetailViewController(nibName: "DetailView", bundle: nil)
+        detailView.latitude = LocationManager.shared.latitude
+        detailView.longitude = LocationManager.shared.longitude
         self.present(detailView, animated: true)
     }
 }
