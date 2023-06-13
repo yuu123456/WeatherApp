@@ -19,6 +19,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 
         LocationManager.shared.delegate = self
+        LocationManager.shared.requestLocationPermission()
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -57,7 +58,6 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func tapLocationGetButton(_ sender: Any) {
-        LocationManager.shared.requestLocationPermission()
         LocationManager.shared.startUpdatingLocation()
         let detailView = DetailViewController(nibName: "DetailView", bundle: nil)
         detailView.latitude = LocationManager.shared.latitude
