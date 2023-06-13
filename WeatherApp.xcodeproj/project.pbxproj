@@ -30,6 +30,7 @@
 		23809BC12A0A94AC008CF97A /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809BBF2A0A94AC008CF97A /* DetailTableViewCell.swift */; };
 		23809BC22A0A94AC008CF97A /* DetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23809BC02A0A94AC008CF97A /* DetailTableViewCell.xib */; };
 		23D1C6C82A1F93B300126E54 /* ExtensionUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D1C6C72A1F93B300126E54 /* ExtensionUIButton.swift */; };
+		23F0DCED2A3717C300602FC0 /* WeatherDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F0DCEC2A3717C300602FC0 /* WeatherDataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		23809BBF2A0A94AC008CF97A /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		23809BC02A0A94AC008CF97A /* DetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailTableViewCell.xib; sourceTree = "<group>"; };
 		23D1C6C72A1F93B300126E54 /* ExtensionUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIButton.swift; sourceTree = "<group>"; };
+		23F0DCEC2A3717C300602FC0 /* WeatherDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				232BF3582A2321470042FEF3 /* KariData.swift */,
 				232BF35A2A2321E40042FEF3 /* WeatherType.swift */,
 				2346CDE32A278B180017BB63 /* LocationManager.swift */,
+				23F0DCEC2A3717C300602FC0 /* WeatherDataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				23809BB92A0A914D008CF97A /* SelectViewController.swift in Sources */,
 				23809BA52A0A8986008CF97A /* MainViewController.swift in Sources */,
 				2346CDE02A271F9E0017BB63 /* ExtensionCLAuthorizationStatus.swift in Sources */,
+				23F0DCED2A3717C300602FC0 /* WeatherDataModel.swift in Sources */,
 				23809BBD2A0A942F008CF97A /* SelectTableViewCell.swift in Sources */,
 				232BF35B2A2321E40042FEF3 /* WeatherType.swift in Sources */,
 				232BF36D2A25849E0042FEF3 /* ExtensionDate.swift in Sources */,
