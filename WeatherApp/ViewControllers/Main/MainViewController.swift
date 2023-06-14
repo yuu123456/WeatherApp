@@ -71,8 +71,8 @@ class MainViewController: UIViewController {
 extension MainViewController: LocationManagerDelegate {
     func didUpdateLocation(_ location: CLLocation) {
         let detailView = DetailViewController(nibName: "DetailView", bundle: nil)
-        detailView.latitude = LocationManager.shared.latitude
-        detailView.longitude = LocationManager.shared.longitude
+        detailView.latitude = location.coordinate.latitude
+        detailView.longitude = location.coordinate.longitude
         self.present(detailView, animated: true)
     }
 
