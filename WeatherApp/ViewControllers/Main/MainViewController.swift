@@ -58,7 +58,13 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func tapLocationGetButton(_ sender: Any) {
-        LocationManager.shared.startUpdatingLocation()
+        if CLLocationManager.locationServicesEnabled() {
+            print("デバイスの位置情報が取得可能です")
+            LocationManager.shared.startUpdatingLocation()
+        } else {
+            print("デバイスの位置情報が取得できません")
+        }
+
     }
 }
 
