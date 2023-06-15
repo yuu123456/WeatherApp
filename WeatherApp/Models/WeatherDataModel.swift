@@ -2,16 +2,24 @@
 //  WeatherDataModel.swift
 //  WeatherApp
 //
-//  Created by 秋山悠 on 2023/06/12.
+
 //
 
 import Foundation
 
-struct WeatherDataModel {
-    var timeArray: [String?]
-    var weatherArray: [WeatherType?]
-    var maxTempArray: [Double?]
-    var minTempArray: [Double?]
-    var humidArray = [30, 85, 50, 70]
-    var rainyPercentArray: [Double] = [30, 85, 20, 50]
+public struct WeatherDataModel: Decodable {
+    public var dateString: String?
+    public var weatherIconId: String? //idでアイコン画像を判別するため（https://openweathermap.org/img/wn/{icon-id}@2x.png）
+    public var maxTemp: Double?
+    public var minTemp: Double?
+    public var humidity: Int?
+    public var rainyPercent: Double?
+
+    public enum CodingsKeys: String, CodingKey {
+        case dateString = "dt_txt"
+        case maxTemp = "temp_max"
+        case minTemp = "temp_min"
+        case humidity
+        case rainyPercent = "pop"
+    }
 }
