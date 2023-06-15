@@ -6,7 +6,6 @@
 //
 
 import Charts
-import CoreLocation
 import UIKit
 
 class DetailViewController: UIViewController {
