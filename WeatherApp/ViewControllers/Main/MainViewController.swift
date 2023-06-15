@@ -19,6 +19,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 
         LocationManager.shared.delegate = self
+        LocationManager.shared.requestLocationPermission()
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -57,19 +58,25 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func tapLocationGetButton(_ sender: Any) {
-        LocationManager.shared.requestLocationPermission()
-        LocationManager.shared.startUpdatingLocation()
-        let detailView = DetailViewController(nibName: "DetailView", bundle: nil)
-        detailView.latitude = LocationManager.shared.latitude
-        detailView.longitude = LocationManager.shared.longitude
-        self.present(detailView, animated: true)
+        if CLLocationManager.locationServicesEnabled() {
+            print("デバイスの位置情報が取得可能です")
+            LocationManager.shared.startUpdatingLocation()
+        } else {
+            print("デバイスの位置情報が取得できません")
+        }
+
     }
 }
 
 extension MainViewController: LocationManagerDelegate {
     func didUpdateLocation(_ location: CLLocation) {
+        let detailView = DetailViewController(nibName: "DetailView", bundle: nil)
+        detailView.latitude = location.coordinate.latitude
+        detailView.longitude = location.coordinate.longitude
+        self.present(detailView, animated: true)
     }
 
     func didFailWithError(_ error: Error) {
+        print("位置情報が取得できないため、遷移しません（のちにアラート実装）")
     }
 }

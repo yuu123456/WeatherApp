@@ -18,9 +18,6 @@ final class LocationManager: NSObject {
 
     public static let shared = LocationManager()
 
-    var latitude: Double?
-    var longitude: Double?
-
     private override init() {
         super.init()
         locationManager.delegate = self
@@ -31,7 +28,12 @@ final class LocationManager: NSObject {
     }
 
     func startUpdatingLocation() {
-        locationManager.startUpdatingLocation()
+        if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse {
+            print("アプリの位置情報取得が許可されています")
+            locationManager.startUpdatingLocation()
+        } else {
+            print("アプリの位置情報取得が許可されていません")
+        }
     }
 
     func stopUpdatingLocation() {
@@ -45,15 +47,15 @@ extension LocationManager: CLLocationManagerDelegate {
             print("位置情報の取得成功")
             print("緯度：\(location.coordinate.latitude)")
             print("経度：\(location.coordinate.longitude)")
-            latitude = location.coordinate.latitude
-            longitude = location.coordinate.longitude
             delegate?.didUpdateLocation(location)
+            manager.stopUpdatingLocation()
         }
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("位置情報の取得に失敗：\(error)")
         delegate?.didFailWithError(error)
+        manager.stopUpdatingLocation()
     }
 
     // 位置情報の許可のステータス変更で呼ばれる
