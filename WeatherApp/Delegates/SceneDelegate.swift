@@ -10,14 +10,13 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    //UINavigationController型の変数宣言
+    // UINavigationController型の変数宣言
     var navigationController: UINavigationController?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
 
-        //UINavigationControllerの生成（これがないと、プッシュ遷移できない）
+        // UINavigationControllerの生成（これがないと、プッシュ遷移できない）
         let viewController: UIViewController = SplashViewController()
         navigationController = UINavigationController(rootViewController: viewController)
         self.window = UIWindow(windowScene: scene as! UIWindowScene)
@@ -46,6 +45,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     }
 
-
 }
-

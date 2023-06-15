@@ -5,12 +5,15 @@
 
 //
 
-import UIKit
 import Charts
+import UIKit
 
 class DetailViewController: UIViewController {
 
     var location: String?
+    var latitude: Double?
+    var longitude: Double?
+
     private var kariData: KariData? = KariData()
 
     @IBOutlet weak var locationLabel: UILabel!
@@ -19,7 +22,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var chartView: LineChartView!
 
     private var chartDataSet: LineChartDataSet!
-    
+
     @IBAction func tapCloseButton(_ sender: Any) {
         self.dismiss(animated: true)
     }
@@ -30,11 +33,13 @@ class DetailViewController: UIViewController {
         kariData?.setTimeArray()
         displayChart(data: kariData!.rainyPercentArray)
 
+        dateLabel.text = Date().japaneseDateStyle
+
         if let location = location {
             locationLabel.text = location
-            dateLabel.text = Date().japaneseDateStyle
         } else {
-            print("値渡し失敗です")
+            locationLabel.text = "取得した現在地（仮）"
+            print("Locationは選択されていません（Main画面から遷移しました）")
         }
 
         detailTableView.delegate = self
@@ -63,12 +68,12 @@ class DetailViewController: UIViewController {
 
         // X軸(xAxis)
         chartView.xAxis.labelPosition = .bottom // x軸ラベルをグラフの下に表示する
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: kariData!.timeArray) //文字列のラベルを表示する
-        chartView.xAxis.granularity = 1 //ラベルが１単位になる
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: kariData!.timeArray) // 文字列のラベルを表示する
+        chartView.xAxis.granularity = 1 // ラベルが１単位になる
 
         // Y軸(leftAxis/rightAxis)
-        chartView.leftAxis.axisMaximum = 100 //y左軸最大値
-        chartView.leftAxis.axisMinimum = 0 //y左軸最小値
+        chartView.leftAxis.axisMaximum = 100 // y左軸最大値
+        chartView.leftAxis.axisMinimum = 0 // y左軸最小値
         chartView.leftAxis.labelCount = 6 // y軸ラベルの数
         chartView.rightAxis.enabled = false // 右側の縦軸ラベルを非表示
 
@@ -77,13 +82,11 @@ class DetailViewController: UIViewController {
         chartView.legend.enabled = false // グラフ名（凡例）を非表示
         chartView.pinchZoomEnabled = false // ピンチズーム不可
         chartView.doubleTapToZoomEnabled = false // ダブルタップズーム不可
-        //見切れ防止のためのオフセット
+        // 見切れ防止のためのオフセット
         chartView.extraTopOffset = 20
         chartView.extraRightOffset = 20
 
         chartView.animate(xAxisDuration: 1) // 2秒かけて左から右にグラフをアニメーションで表示する
-
-//        view.addSubview(chartView)
     }
 }
 
@@ -95,16 +98,14 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
-        if let data = kariData{
+        if let data = kariData {
             cell.timeLabel.text = data.timeArray[indexPath.row]
-            cell.weatherImage.image =  data.weatherArray[indexPath.row].getWeatherImage()
+            cell.weatherImage.image = data.weatherArray[indexPath.row].getWeatherImage()
             cell.maxTempLabel.text = "最高気温：" + String(data.maxTempArray[indexPath.row]) + "℃"
             cell.minTempLabel.text = "最低気温：" + String(data.minTempArray[indexPath.row]) + "℃"
             cell.humidLabel.text = "湿度：" + String(data.humidArray[indexPath.row]) + "％"
         }
-        
+
         return cell
     }
-
-
 }

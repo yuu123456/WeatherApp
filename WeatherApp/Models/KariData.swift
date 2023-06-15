@@ -6,7 +6,7 @@
 //
 
 import Foundation
-//API通信を行うまでの仮のデータ（後ほど削除）
+// API通信を行うまでの仮のデータ（後ほど削除）
 struct KariData {
     var timeArray: [String] = []
 
@@ -19,9 +19,9 @@ struct KariData {
         // データ数
         let dataCount = 9
         // 時間データを生成して配列に追加
-        //Labelに使用するため、String型配列とする
-        for i in 0..<dataCount {
-            let time = Calendar.current.date(byAdding: .hour, value: 3*i, to: startTime)!
+        // Labelに使用するため、String型配列とする
+        for index in 0..<dataCount {
+            let time = Calendar.current.date(byAdding: .hour, value: 3 * index, to: startTime)!
             let formattedTime = formatter.string(from: time)
             timeArray.append(formattedTime)
         }

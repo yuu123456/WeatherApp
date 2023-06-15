@@ -14,7 +14,6 @@ class DetailTableViewCell: UITableViewCell {
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
     @IBOutlet weak var humidLabel: UILabel!
-    
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,5 +27,5 @@ class DetailTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
 }

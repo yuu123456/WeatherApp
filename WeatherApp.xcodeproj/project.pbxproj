@@ -12,6 +12,8 @@
 		232BF36B2A2351910042FEF3 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 232BF36A2A2351910042FEF3 /* Charts */; };
 		232BF36D2A25849E0042FEF3 /* ExtensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF36C2A25849E0042FEF3 /* ExtensionDate.swift */; };
 		232BF36F2A25D8CC0042FEF3 /* ExtensionDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF36E2A25D8CC0042FEF3 /* ExtensionDateFormatter.swift */; };
+		2346CDE02A271F9E0017BB63 /* ExtensionCLAuthorizationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2346CDDF2A271F9E0017BB63 /* ExtensionCLAuthorizationStatus.swift */; };
+		2346CDE42A278B180017BB63 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2346CDE32A278B180017BB63 /* LocationManager.swift */; };
 		23809B8C2A0A83F5008CF97A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809B8B2A0A83F5008CF97A /* AppDelegate.swift */; };
 		23809B8E2A0A83F5008CF97A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809B8D2A0A83F5008CF97A /* SceneDelegate.swift */; };
 		23809B952A0A83F7008CF97A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23809B942A0A83F7008CF97A /* Assets.xcassets */; };
@@ -35,6 +37,8 @@
 		232BF35A2A2321E40042FEF3 /* WeatherType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherType.swift; sourceTree = "<group>"; };
 		232BF36C2A25849E0042FEF3 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
 		232BF36E2A25D8CC0042FEF3 /* ExtensionDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDateFormatter.swift; sourceTree = "<group>"; };
+		2346CDDF2A271F9E0017BB63 /* ExtensionCLAuthorizationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionCLAuthorizationStatus.swift; sourceTree = "<group>"; };
+		2346CDE32A278B180017BB63 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		23809B882A0A83F5008CF97A /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23809B8B2A0A83F5008CF97A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23809B8D2A0A83F5008CF97A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +76,7 @@
 			children = (
 				232BF3582A2321470042FEF3 /* KariData.swift */,
 				232BF35A2A2321E40042FEF3 /* WeatherType.swift */,
+				2346CDE32A278B180017BB63 /* LocationManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -93,6 +98,7 @@
 				23D1C6C72A1F93B300126E54 /* ExtensionUIButton.swift */,
 				232BF36C2A25849E0042FEF3 /* ExtensionDate.swift */,
 				232BF36E2A25D8CC0042FEF3 /* ExtensionDateFormatter.swift */,
+				2346CDDF2A271F9E0017BB63 /* ExtensionCLAuthorizationStatus.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -185,6 +191,7 @@
 				23809B842A0A83F5008CF97A /* Sources */,
 				23809B852A0A83F5008CF97A /* Frameworks */,
 				23809B862A0A83F5008CF97A /* Resources */,
+				23F0DCEB2A29B82F00602FC0 /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -251,6 +258,28 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		23F0DCEB2A29B82F00602FC0 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nif which swiftlint >/dev/null; then\n  swiftlint --fix\n  swiftlint\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		23809B842A0A83F5008CF97A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -258,6 +287,7 @@
 			files = (
 				232BF3592A2321470042FEF3 /* KariData.swift in Sources */,
 				23809B8C2A0A83F5008CF97A /* AppDelegate.swift in Sources */,
+				2346CDE42A278B180017BB63 /* LocationManager.swift in Sources */,
 				23809B8E2A0A83F5008CF97A /* SceneDelegate.swift in Sources */,
 				23809BC12A0A94AC008CF97A /* DetailTableViewCell.swift in Sources */,
 				23809BAD2A0A89E6008CF97A /* DetailViewController.swift in Sources */,
@@ -266,6 +296,7 @@
 				23D1C6C82A1F93B300126E54 /* ExtensionUIButton.swift in Sources */,
 				23809BB92A0A914D008CF97A /* SelectViewController.swift in Sources */,
 				23809BA52A0A8986008CF97A /* MainViewController.swift in Sources */,
+				2346CDE02A271F9E0017BB63 /* ExtensionCLAuthorizationStatus.swift in Sources */,
 				23809BBD2A0A942F008CF97A /* SelectTableViewCell.swift in Sources */,
 				232BF35B2A2321E40042FEF3 /* WeatherType.swift in Sources */,
 				232BF36D2A25849E0042FEF3 /* ExtensionDate.swift in Sources */,
@@ -399,6 +430,7 @@
 				DEVELOPMENT_TEAM = 8GLVHJH8KR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "この端末の位置情報へのアクセスをWeatherAppに許可しますか？";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
@@ -431,6 +463,7 @@
 				DEVELOPMENT_TEAM = 8GLVHJH8KR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "この端末の位置情報へのアクセスをWeatherAppに許可しますか？";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
