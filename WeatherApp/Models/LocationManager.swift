@@ -48,14 +48,14 @@ extension LocationManager: CLLocationManagerDelegate {
             print("緯度：\(location.coordinate.latitude)")
             print("経度：\(location.coordinate.longitude)")
             delegate?.didUpdateLocation(location)
-            LocationManager.shared.stopUpdatingLocation()
+            manager.stopUpdatingLocation()
         }
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("位置情報の取得に失敗：\(error)")
         delegate?.didFailWithError(error)
-        LocationManager.shared.stopUpdatingLocation()
+        manager.stopUpdatingLocation()
     }
 
     // 位置情報の許可のステータス変更で呼ばれる
