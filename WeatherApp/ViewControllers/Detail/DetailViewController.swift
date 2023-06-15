@@ -50,10 +50,6 @@ class DetailViewController: UIViewController {
         detailTableView.rowHeight = 100
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        LocationManager.shared.stopUpdatingLocation()
-    }
-
     private func displayChart(data: [Double]) {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
