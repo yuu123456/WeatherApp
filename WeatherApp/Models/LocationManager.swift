@@ -28,7 +28,12 @@ final class LocationManager: NSObject {
     }
 
     func startUpdatingLocation() {
-        locationManager.startUpdatingLocation()
+        if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse {
+            print("アプリの位置情報取得が許可されています")
+            locationManager.startUpdatingLocation()
+        } else {
+            print("アプリの位置情報取得が許可されていません")
+        }
     }
 
     func stopUpdatingLocation() {
