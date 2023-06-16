@@ -13,6 +13,7 @@ class DetailViewController: UIViewController {
     var location: String?
     var latitude: Double?
     var longitude: Double?
+    let apiKey = "5dfc577c1d7d94e9e23a00431582f1ac"
 
     private var kariData: KariData? = KariData()
 
@@ -29,6 +30,22 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let client = APIClient(httpClient: URLSession.shared)
+        let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude!, longitude: longitude!)
+        client.send(request: request) { result in
+            switch result {
+            case .success(let response):
+                for weatherData in response.weatherDatas {
+                    print(weatherData)
+                }
+//                exit(0)
+            case .failure(let error):
+                print(error)
+//                exit(1)
+            }
+
+        }
 
         kariData?.setTimeArray()
         displayChart(data: kariData!.rainyPercentArray)
