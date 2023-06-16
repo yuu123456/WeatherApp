@@ -8,20 +8,50 @@
 import Foundation
 
 public struct WeatherData: Decodable {
-    public var dateString: String?
-    public var weatherIconId: String? // idでアイコン画像を判別するため（https://openweathermap.org/img/wn/{icon-id}@2x.png）
-    public var maxTemp: Double?
-    public var minTemp: Double?
-    public var humidity: Int?
-    public var rainyPercent: Double?
-    public var city: String?
+    public var list: [List]
+    public var city: City
+}
+
+public struct List: Decodable {
+    public var main: Main
+    public var weather: Weather
+    public var rainyPercent: Double
+    public var dateString: String
 
     public enum CodingsKeys: String, CodingKey {
+        case main
+        case weather
+        case rainyPercent = "pop"
         case dateString = "dt_txt"
+    }
+}
+
+public struct Main: Decodable {
+    public var maxTemp: Double
+    public var minTemp: Double
+    public var humidity: Int
+
+    public enum CodingsKeys: String, CodingKey {
         case maxTemp = "temp_max"
         case minTemp = "temp_min"
         case humidity
-        case rainyPercent = "pop"
-        case city = "name"
     }
+}
+
+public struct Weather: Decodable {
+    public var weatherIconId: String
+
+    public enum CodingsKeys: String, CodingKey {
+        case weatherIconId = "icon"
+    }
+}
+
+public struct City: Decodable {
+    public var name: String
+    public var coord: [Coord]
+}
+
+public struct Coord: Decodable {
+    public var lat: String
+    public var lon: String
 }
