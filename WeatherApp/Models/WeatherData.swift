@@ -6,14 +6,16 @@
 //
 
 import Foundation
-
+/// 取得したいデータのモデル（APIのレスポンスに合わせた）
 public struct WeatherData: Decodable {
+    // レスポンスにおいてlistは配列型
     public var list: [List]
     public var city: City
 }
 
 public struct List: Decodable {
     public var main: Main
+    // レスポンスにおいてweatherは配列型
     public var weather: [Weather]
     public var rainyPercent: Double
     public var dateString: String

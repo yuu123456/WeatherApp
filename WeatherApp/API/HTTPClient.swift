@@ -6,13 +6,14 @@
 //
 
 import Foundation
-
+/// サーバーと情報をやり取りするための決まり事
 public protocol HTTPClient {
+    /// APIに対してリクエストを送信し、レスポンスを受け取るメソッド
     func sendRequest(_ urlRequest: URLRequest, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> Void)
 
 }
-
-extension URLSession: HTTPClient {
+//URLSessionクラスをHTTPクライアントとして使用できるようにする
+ extension URLSession: HTTPClient {
     public func sendRequest(_ urlRequest: URLRequest, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> Void) {
         let task = dataTask(with: urlRequest) { data, urlResponse, error in
             switch (data, urlResponse, error) {
@@ -26,4 +27,4 @@ extension URLSession: HTTPClient {
         }
         task.resume()
     }
-}
+ }

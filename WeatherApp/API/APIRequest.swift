@@ -8,7 +8,7 @@
 import Foundation
 /// APIクライアントサーバに対する要求に関する決まり事（URLの書き換えがないため、ゲッタのみ）
 public protocol APIRequest {
-    // リクエストの型からレスポンスの型を決定できるようにする
+    // 連想型。リクエストの型からレスポンスの型を決定できるようにする（型を指定しない）
     associatedtype Response: Decodable
 
     var baseURL: URL { get }
@@ -25,11 +25,14 @@ public extension APIRequest {
 
     /// リクエストを表す型をそのままでは渡せないため、URLRequest型に変換する
     func buildURLRequest() -> URLRequest {
+        // baseURLにpathを統合する
         let url = baseURL.appendingPathComponent(path)
+        // 統合したURLをURLComponentsにすることで、さまざまな要素にアクセス可能にする
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
         // 今回は.get以外は考慮しない
         switch method {
         case .get:
+            // クエリパラメータをURLに追加する
             components?.queryItems = queryItems
         default:
             fatalError("Unsupported method \(method)")
