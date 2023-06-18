@@ -96,14 +96,6 @@
 				232BF35A2A2321E40042FEF3 /* WeatherType.swift */,
 				2346CDE32A278B180017BB63 /* LocationManager.swift */,
 				23F0DCEC2A3717C300602FC0 /* WeatherData.swift */,
-				23F0DCF42A3BECCB00602FC0 /* SearchResponse.swift */,
-				23F0DCF02A3B473100602FC0 /* HTTPMethod.swift */,
-				23F0DCEE2A3B444C00602FC0 /* APIRequest.swift */,
-				23F0DCF82A3C006A00602FC0 /* APIClientError.swift */,
-				23F0DCFE2A3C749C00602FC0 /* APIError.swift */,
-				23F0DCF22A3B510500602FC0 /* OpenWeatherMapAPI.swift */,
-				23F0DCFA2A3C2ED200602FC0 /* HTTPClient.swift */,
-				23F0DCFC2A3C3CFB00602FC0 /* APIClient.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -179,6 +171,21 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
+		234F95572A3E9CE900872335 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				23F0DCF42A3BECCB00602FC0 /* SearchResponse.swift */,
+				23F0DCF02A3B473100602FC0 /* HTTPMethod.swift */,
+				23F0DCEE2A3B444C00602FC0 /* APIRequest.swift */,
+				23F0DCF82A3C006A00602FC0 /* APIClientError.swift */,
+				23F0DCFE2A3C749C00602FC0 /* APIError.swift */,
+				23F0DCF22A3B510500602FC0 /* OpenWeatherMapAPI.swift */,
+				23F0DCFA2A3C2ED200602FC0 /* HTTPClient.swift */,
+				23F0DCFC2A3C3CFB00602FC0 /* APIClient.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		23809B7F2A0A83F5008CF97A = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +207,7 @@
 			children = (
 				23379CB82A16319C00CCDBD3 /* Delegates */,
 				23379CB32A16310E00CCDBD3 /* Models */,
+				234F95572A3E9CE900872335 /* API */,
 				23379CB42A16312400CCDBD3 /* ViewControllers */,
 				23379CB52A16314D00CCDBD3 /* Extensions */,
 				23809B942A0A83F7008CF97A /* Assets.xcassets */,

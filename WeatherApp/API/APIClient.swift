@@ -16,6 +16,7 @@ public class APIClient {
 
     public func send<Request: APIRequest>(request: Request, completion: @escaping (Result<Request.Response, APIClientError>) -> Void) {
         let urlRequest = request.buildURLRequest()
+        print(urlRequest)
         httpClient.sendRequest(urlRequest) { result in
             switch result {
             case .success((let data, let urlResponse)):

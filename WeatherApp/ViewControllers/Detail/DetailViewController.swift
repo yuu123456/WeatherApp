@@ -36,13 +36,11 @@ class DetailViewController: UIViewController {
         client.send(request: request) { result in
             switch result {
             case .success(let response):
-                for weatherData in response.weatherDatas {
-                    print(weatherData)
-                }
-//                exit(0)
+                print(response)
+
             case .failure(let error):
                 print(error)
-//                exit(1)
+
             }
 
         }

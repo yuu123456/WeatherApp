@@ -14,6 +14,7 @@ public final class OpenWeatherMapAPI {
         public let longitude: Double
         private let apiKey: String = "5dfc577c1d7d94e9e23a00431582f1ac"
 
+        // APIRequestが要求する連想型？
         public typealias Response = SearchResponse<WeatherData>
 
         public var method: HTTPMethod {
