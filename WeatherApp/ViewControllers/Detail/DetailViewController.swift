@@ -14,6 +14,8 @@ class DetailViewController: UIViewController {
     var latitude: Double?
     var longitude: Double?
     let apiKey = "5dfc577c1d7d94e9e23a00431582f1ac"
+    // Icon画像取得前にtableViewがクラッシュしないように仮処置
+    private var weatherIconArray: [UIImage] = [UIImage.add, UIImage.add, UIImage.add, UIImage.add]
 
     private var kariData: KariData? = KariData()
 
@@ -33,10 +35,36 @@ class DetailViewController: UIViewController {
 
         let client = APIClient(httpClient: URLSession.shared)
         let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude!, longitude: longitude!)
+
         client.send(request: request) { result in
             switch result {
             case .success(let response):
-                print(response)
+                // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
+                let dispatchGroup = DispatchGroup()
+                // 仮画像の削除
+                self.weatherIconArray = []
+
+                for weatherData in response.list {
+                    if let iconId = weatherData.weather.first?.weatherIconId {
+                        // 複数の非同期処理に入る
+                        dispatchGroup.enter()
+                        // 非同期処理①：取得したアイコンIdから画像を取得
+                        GetWeatherIcon.shared.getWeatherIcon(iconId: iconId) { weatherIcon in
+                            // 非同期処理②：取得した画像を都度配列に格納　※この処理は①に含めば不要ではないか・・・？
+                            DispatchQueue.main.async {
+                                if let weatherIcon = weatherIcon {
+                                    self.weatherIconArray.append(weatherIcon)
+                                }
+                                // 複数の非同期処理の完了
+                                dispatchGroup.leave()
+                            }
+                        }
+                    }
+                }
+                // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
+                dispatchGroup.notify(queue: .main) {
+                    self.detailTableView.reloadData()
+                }
 
             case .failure(let error):
                 print(error)
@@ -113,9 +141,10 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
+        cell.weatherImage.image = weatherIconArray[indexPath.row]
+
         if let data = kariData {
             cell.timeLabel.text = data.timeArray[indexPath.row]
-            cell.weatherImage.image = data.weatherArray[indexPath.row].getWeatherImage()
             cell.maxTempLabel.text = "最高気温：" + String(data.maxTempArray[indexPath.row]) + "℃"
             cell.minTempLabel.text = "最低気温：" + String(data.minTempArray[indexPath.row]) + "℃"
             cell.humidLabel.text = "湿度：" + String(data.humidArray[indexPath.row]) + "％"

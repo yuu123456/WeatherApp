@@ -12,7 +12,7 @@ public protocol HTTPClient {
     func sendRequest(_ urlRequest: URLRequest, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> Void)
 
 }
-//URLSessionクラスをHTTPクライアントとして使用できるようにする
+// URLSessionクラスをHTTPクライアントとして使用できるようにする
  extension URLSession: HTTPClient {
     public func sendRequest(_ urlRequest: URLRequest, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> Void) {
         let task = dataTask(with: urlRequest) { data, urlResponse, error in
