@@ -17,6 +17,12 @@ class DetailViewController: UIViewController {
     // Icon画像取得前にtableViewがクラッシュしないように仮処置
     private var weatherIconArray: [UIImage] = [UIImage.add, UIImage.add, UIImage.add, UIImage.add]
 
+    private var maxTempArray: [Double] = [0, 0, 0, 0]
+    private var minTempArray: [Double] = [0, 0, 0, 0]
+    private var humidityArray: [Int] = [0, 0, 0, 0]
+    private var rainyPercentArray: [Double] = [0, 0, 0, 0]
+    private var dateStringArray: [String] = ["", "", "", ""]
+
     private var kariData: KariData? = KariData()
 
     @IBOutlet weak var locationLabel: UILabel!
@@ -43,8 +49,19 @@ class DetailViewController: UIViewController {
                 let dispatchGroup = DispatchGroup()
                 // 仮画像の削除
                 self.weatherIconArray = []
+                self.maxTempArray = []
+                self.minTempArray = []
+                self.humidityArray = []
+                self.rainyPercentArray = []
+                self.dateStringArray = []
 
                 for weatherData in response.list {
+                    self.maxTempArray.append(weatherData.main.maxTemp)
+                    self.minTempArray.append(weatherData.main.minTemp)
+                    self.humidityArray.append(weatherData.main.humidity)
+                    self.rainyPercentArray.append(weatherData.rainyPercent)
+                    self.dateStringArray.append(weatherData.dateString)
+
                     if let iconId = weatherData.weather.first?.weatherIconId {
                         // 複数の非同期処理に入る
                         dispatchGroup.enter()
@@ -143,11 +160,12 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
 
         cell.weatherImage.image = weatherIconArray[indexPath.row]
 
+        cell.maxTempLabel.text = "最高気温：" + String(maxTempArray[indexPath.row]) + "℃"
+        cell.minTempLabel.text = "最低気温：" + String(minTempArray[indexPath.row]) + "℃"
+        cell.humidLabel.text = "湿度：" + String(humidityArray[indexPath.row]) + "％"
+
         if let data = kariData {
             cell.timeLabel.text = data.timeArray[indexPath.row]
-            cell.maxTempLabel.text = "最高気温：" + String(data.maxTempArray[indexPath.row]) + "℃"
-            cell.minTempLabel.text = "最低気温：" + String(data.minTempArray[indexPath.row]) + "℃"
-            cell.humidLabel.text = "湿度：" + String(data.humidArray[indexPath.row]) + "％"
         }
 
         return cell
