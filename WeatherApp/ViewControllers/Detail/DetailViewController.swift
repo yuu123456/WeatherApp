@@ -126,7 +126,6 @@ class DetailViewController: UIViewController {
                 }
                 // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
                 dispatchGroup.notify(queue: .main) {
-                    self.detailTableView.reloadData()
                     // インジケータ非表示
                     self.activityIndicatorView.stopAnimating()
                     // タップの有効化
@@ -136,6 +135,7 @@ class DetailViewController: UIViewController {
                     self.displayChart(data: self.rainyPercentArray)
                     // テーブルビューの表示
                     self.detailTableView.dataSource = self
+                    self.detailTableView.reloadData()
                 }
 
             case .failure(let error):
