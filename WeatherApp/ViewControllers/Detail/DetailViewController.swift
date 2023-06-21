@@ -61,7 +61,8 @@ class DetailViewController: UIViewController {
         detailTableView.rowHeight = 100
     }
 
-    private func getWeatherDataFromLocationInfo(latitude: Double?, longitude: Double?) {
+    ///位置情報をもとに天気データを取得しViewを更新するメソッド
+    private func getWeatherDataFromLocationInfoAndUpdateView(latitude: Double?, longitude: Double?) {
         guard let latitude = latitude,
               let longitude = longitude else {
                   print("緯度及び軽度が不正です")
