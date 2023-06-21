@@ -45,7 +45,7 @@ class DetailViewController: UIViewController {
 
         getWeatherDataFromLocationInfoAndUpdateView(latitude: latitude, longitude: longitude)
 
-        dateLabel.text = Date().japaneseDateStyle
+        dateLabel.text = Date().formatJapaneseDateStyle
 
         if let location = location {
             locationLabel.text = location
@@ -104,7 +104,7 @@ class DetailViewController: UIViewController {
                     self.humidityArray.append(weatherData.main.humidity)
                     self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
                     // タイムスタンプをDate型にし、変換、格納する
-                    self.timeArray.append(Date(timeIntervalSince1970: weatherData.dateStamp).japaneseDateStyleFromTimeStamp)
+                    self.timeArray.append(Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForChartsAndTableView)
 
                     guard let iconId = weatherData.weather.first?.weatherIconId else {
                         print("iconIdが取得できていません")
