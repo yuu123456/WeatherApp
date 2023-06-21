@@ -39,7 +39,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getWeatherDataFromLocationInfo(latitude: latitude, longitude: longitude)
+        getWeatherDataFromLocationInfoAndUpdateView(latitude: latitude, longitude: longitude)
 
         kariData?.setTimeArray()
         displayChart(data: kariData!.rainyPercentArray)
@@ -61,7 +61,7 @@ class DetailViewController: UIViewController {
         detailTableView.rowHeight = 100
     }
 
-    ///位置情報をもとに天気データを取得しViewを更新するメソッド
+    /// 位置情報をもとに天気データを取得しViewを更新するメソッド
     private func getWeatherDataFromLocationInfoAndUpdateView(latitude: Double?, longitude: Double?) {
         guard let latitude = latitude,
               let longitude = longitude else {
@@ -91,19 +91,21 @@ class DetailViewController: UIViewController {
                     self.rainyPercentArray.append(weatherData.rainyPercent)
                     self.dateStringArray.append(weatherData.dateString)
 
-                    if let iconId = weatherData.weather.first?.weatherIconId {
-                        // 複数の非同期処理に入る
-                        dispatchGroup.enter()
-                        // 非同期処理①：取得したアイコンIdから画像を取得
-                        GetWeatherIcon.shared.getWeatherIcon(iconId: iconId) { weatherIcon in
-                            // 非同期処理②：取得した画像を都度配列に格納　※この処理は①に含めば不要ではないか・・・？
-                            DispatchQueue.main.async {
-                                if let weatherIcon = weatherIcon {
-                                    self.weatherIconArray.append(weatherIcon)
-                                }
-                                // 複数の非同期処理の完了
-                                dispatchGroup.leave()
+                    guard let iconId = weatherData.weather.first?.weatherIconId else {
+                        print("iconIdが取得できていません")
+                        return
+                    }
+                    // 複数の非同期処理に入る
+                    dispatchGroup.enter()
+                    // 非同期処理①：取得したアイコンIdから画像を取得
+                    GetWeatherIcon.shared.getWeatherIcon(iconId: iconId) { weatherIcon in
+                        // 非同期処理②：取得した画像を都度配列に格納　※この処理は①に含めば不要ではないか・・・？
+                        DispatchQueue.main.async {
+                            if let weatherIcon = weatherIcon {
+                                self.weatherIconArray.append(weatherIcon)
                             }
+                            // 複数の非同期処理の完了
+                            dispatchGroup.leave()
                         }
                     }
                 }
