@@ -15,7 +15,7 @@ class DetailViewController: UIViewController {
     var longitude: Double?
     let apiKey = "5dfc577c1d7d94e9e23a00431582f1ac"
 
-    //表示するデータ数（表示するデータ数も指定しているが、そもそもAPIにて取得データ数に制限も可能）
+    // 表示するデータ数（表示するデータ数も指定しているが、そもそもAPIにて取得データ数に制限も可能）
     private let displayDataCount = 8
 
     private var weatherIconArray: [UIImage] = []
@@ -23,7 +23,7 @@ class DetailViewController: UIViewController {
     private var minTempArray: [Double] = []
     private var humidityArray: [Int] = []
     private var rainyPercentArray: [Double] = []
-    private var dateStringArray: [String] = []
+    private var timeArray: [String] = []
 
     private var kariData: KariData? = KariData()
 
@@ -90,7 +90,6 @@ class DetailViewController: UIViewController {
         let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude, longitude: longitude)
 
         client.send(request: request) { result in
-            print(result)
             switch result {
             case .success(let response):
                 // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
@@ -101,14 +100,15 @@ class DetailViewController: UIViewController {
                 self.minTempArray = []
                 self.humidityArray = []
                 self.rainyPercentArray = []
-                self.dateStringArray = []
+                self.timeArray = []
 
                 for weatherData in response.list {
                     self.maxTempArray.append(weatherData.main.maxTemp)
                     self.minTempArray.append(weatherData.main.minTemp)
                     self.humidityArray.append(weatherData.main.humidity)
                     self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
-                    self.dateStringArray.append(weatherData.dateString)
+                    // タイムスタンプをDate型にし、変換、格納する
+                    self.timeArray.append(Date(timeIntervalSince1970: weatherData.dateStamp).japaneseDateStyleFromTimeStamp)
 
                     guard let iconId = weatherData.weather.first?.weatherIconId else {
                         print("iconIdが取得できていません")
@@ -152,7 +152,7 @@ class DetailViewController: UIViewController {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
 
-        //グラフに表示するデータの保管
+        // グラフに表示するデータの保管
         for i in 0..<displayDataCount {
             let dataEntry = ChartDataEntry(x: Double(i), y: data[i])
             dataEntries.append(dataEntry)
@@ -167,7 +167,7 @@ class DetailViewController: UIViewController {
 
         // X軸(xAxis)
         chartView.xAxis.labelPosition = .bottom // x軸ラベルをグラフの下に表示する
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: kariData!.timeArray) // 文字列のラベルを表示する
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: timeArray) // 文字列のラベルを表示する
         chartView.xAxis.granularity = 1 // ラベルが１単位になる
 
         // Y軸(leftAxis/rightAxis)
@@ -202,10 +202,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.maxTempLabel.text = "最高気温：" + String(maxTempArray[indexPath.row]) + "℃"
         cell.minTempLabel.text = "最低気温：" + String(minTempArray[indexPath.row]) + "℃"
         cell.humidLabel.text = "湿度：" + String(humidityArray[indexPath.row]) + "％"
-
-        if let data = kariData {
-            cell.timeLabel.text = data.timeArray[indexPath.row]
-        }
+        cell.timeLabel.text = timeArray[indexPath.row]
 
         return cell
     }

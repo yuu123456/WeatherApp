@@ -12,4 +12,7 @@ extension Date {
     var japaneseDateStyle: String {
         return DateFormatter.formatJapaneseDate.string(from: self)
     }
+    var japaneseDateStyleFromTimeStamp: String {
+        return DateFormatter.formatJapaneseDateForDisplay.string(from: self)
+    }
 }
