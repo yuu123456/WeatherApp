@@ -25,8 +25,6 @@ class DetailViewController: UIViewController {
     private var rainyPercentArray: [Double] = []
     private var timeArray: [String] = []
 
-    private var kariData: KariData? = KariData()
-
     private var activityIndicatorView = UIActivityIndicatorView()
 
     @IBOutlet weak var locationLabel: UILabel!
@@ -46,8 +44,6 @@ class DetailViewController: UIViewController {
         displayActivityIndicatorView()
 
         getWeatherDataFromLocationInfoAndUpdateView(latitude: latitude, longitude: longitude)
-
-        kariData?.setTimeArray()
 
         dateLabel.text = Date().japaneseDateStyle
 
