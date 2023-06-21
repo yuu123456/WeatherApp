@@ -39,8 +39,36 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        getWeatherDataFromLocationInfo(latitude: latitude, longitude: longitude)
+
+        kariData?.setTimeArray()
+        displayChart(data: kariData!.rainyPercentArray)
+
+        dateLabel.text = Date().japaneseDateStyle
+
+        if let location = location {
+            locationLabel.text = location
+        } else {
+            locationLabel.text = "取得した現在地（仮）"
+            print("Locationは選択されていません（Main画面から遷移しました）")
+        }
+
+        detailTableView.delegate = self
+        detailTableView.dataSource = self
+
+        detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
+
+        detailTableView.rowHeight = 100
+    }
+
+    private func getWeatherDataFromLocationInfo(latitude: Double?, longitude: Double?) {
+        guard let latitude = latitude,
+              let longitude = longitude else {
+                  print("緯度及び軽度が不正です")
+                  return
+              }
         let client = APIClient(httpClient: URLSession.shared)
-        let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude!, longitude: longitude!)
+        let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude, longitude: longitude)
 
         client.send(request: request) { result in
             switch result {
@@ -85,29 +113,8 @@ class DetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
-
             }
-
         }
-
-        kariData?.setTimeArray()
-        displayChart(data: kariData!.rainyPercentArray)
-
-        dateLabel.text = Date().japaneseDateStyle
-
-        if let location = location {
-            locationLabel.text = location
-        } else {
-            locationLabel.text = "取得した現在地（仮）"
-            print("Locationは選択されていません（Main画面から遷移しました）")
-        }
-
-        detailTableView.delegate = self
-        detailTableView.dataSource = self
-
-        detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
-
-        detailTableView.rowHeight = 100
     }
 
     private func displayChart(data: [Double]) {
