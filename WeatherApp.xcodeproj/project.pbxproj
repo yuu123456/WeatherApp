@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		232BF3592A2321470042FEF3 /* KariData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF3582A2321470042FEF3 /* KariData.swift */; };
-		232BF35B2A2321E40042FEF3 /* WeatherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF35A2A2321E40042FEF3 /* WeatherType.swift */; };
 		232BF36B2A2351910042FEF3 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 232BF36A2A2351910042FEF3 /* Charts */; };
 		232BF36D2A25849E0042FEF3 /* ExtensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF36C2A25849E0042FEF3 /* ExtensionDate.swift */; };
 		232BF36F2A25D8CC0042FEF3 /* ExtensionDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232BF36E2A25D8CC0042FEF3 /* ExtensionDateFormatter.swift */; };
@@ -43,8 +41,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		232BF3582A2321470042FEF3 /* KariData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KariData.swift; sourceTree = "<group>"; };
-		232BF35A2A2321E40042FEF3 /* WeatherType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherType.swift; sourceTree = "<group>"; };
 		232BF36C2A25849E0042FEF3 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
 		232BF36E2A25D8CC0042FEF3 /* ExtensionDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDateFormatter.swift; sourceTree = "<group>"; };
 		2346CDDF2A271F9E0017BB63 /* ExtensionCLAuthorizationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionCLAuthorizationStatus.swift; sourceTree = "<group>"; };
@@ -94,8 +90,6 @@
 		23379CB32A16310E00CCDBD3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				232BF3582A2321470042FEF3 /* KariData.swift */,
-				232BF35A2A2321E40042FEF3 /* WeatherType.swift */,
 				2346CDE32A278B180017BB63 /* LocationManager.swift */,
 				23F0DCEC2A3717C300602FC0 /* WeatherData.swift */,
 				234F95582A3F0FF200872335 /* GETWeatherIcon.swift */,
@@ -323,7 +317,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				232BF3592A2321470042FEF3 /* KariData.swift in Sources */,
 				23809B8C2A0A83F5008CF97A /* AppDelegate.swift in Sources */,
 				2346CDE42A278B180017BB63 /* LocationManager.swift in Sources */,
 				23809B8E2A0A83F5008CF97A /* SceneDelegate.swift in Sources */,
@@ -343,7 +336,6 @@
 				234F95592A3F0FF200872335 /* GETWeatherIcon.swift in Sources */,
 				23F0DCF52A3BECCB00602FC0 /* SearchResponse.swift in Sources */,
 				23F0DCEF2A3B444C00602FC0 /* APIRequest.swift in Sources */,
-				232BF35B2A2321E40042FEF3 /* WeatherType.swift in Sources */,
 				23F0DCFB2A3C2ED200602FC0 /* HTTPClient.swift in Sources */,
 				23F0DCF92A3C006A00602FC0 /* APIClientError.swift in Sources */,
 				23F0DCFF2A3C749C00602FC0 /* APIError.swift in Sources */,
