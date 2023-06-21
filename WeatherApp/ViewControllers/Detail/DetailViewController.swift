@@ -17,11 +17,11 @@ class DetailViewController: UIViewController {
     // Icon画像取得前にtableViewがクラッシュしないように仮処置
     private var weatherIconArray: [UIImage] = [UIImage.add, UIImage.add, UIImage.add, UIImage.add]
 
-    private var maxTempArray: [Double] = [0, 0, 0, 0]
-    private var minTempArray: [Double] = [0, 0, 0, 0]
-    private var humidityArray: [Int] = [0, 0, 0, 0]
-    private var rainyPercentArray: [Double] = [0, 0, 0, 0]
-    private var dateStringArray: [String] = ["", "", "", ""]
+    private var maxTempArray: [Double] = []
+    private var minTempArray: [Double] = []
+    private var humidityArray: [Int] = []
+    private var rainyPercentArray: [Double] = []
+    private var dateStringArray: [String] = []
 
     private var kariData: KariData? = KariData()
 
@@ -46,7 +46,6 @@ class DetailViewController: UIViewController {
         getWeatherDataFromLocationInfoAndUpdateView(latitude: latitude, longitude: longitude)
 
         kariData?.setTimeArray()
-        displayChart(data: kariData!.rainyPercentArray)
 
         dateLabel.text = Date().japaneseDateStyle
 
@@ -58,7 +57,6 @@ class DetailViewController: UIViewController {
         }
 
         detailTableView.delegate = self
-        detailTableView.dataSource = self
 
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
 
@@ -134,6 +132,11 @@ class DetailViewController: UIViewController {
                     self.activityIndicatorView.stopAnimating()
                     // タップの有効化
                     self.view.isUserInteractionEnabled = true
+
+                    // グラフの表示
+                    self.displayChart(data: self.kariData!.rainyPercentArray)
+                    // テーブルビューの表示
+                    self.detailTableView.dataSource = self
                 }
 
             case .failure(let error):
