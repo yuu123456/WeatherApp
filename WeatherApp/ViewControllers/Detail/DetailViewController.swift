@@ -14,9 +14,8 @@ class DetailViewController: UIViewController {
     var latitude: Double?
     var longitude: Double?
     let apiKey = "5dfc577c1d7d94e9e23a00431582f1ac"
-    // Icon画像取得前にtableViewがクラッシュしないように仮処置
-    private var weatherIconArray: [UIImage] = [UIImage.add, UIImage.add, UIImage.add, UIImage.add]
 
+    private var weatherIconArray: [UIImage] = []
     private var maxTempArray: [Double] = []
     private var minTempArray: [Double] = []
     private var humidityArray: [Int] = []
