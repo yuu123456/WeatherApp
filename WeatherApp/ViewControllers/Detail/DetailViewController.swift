@@ -15,6 +15,8 @@ class DetailViewController: UIViewController {
     var longitude: Double?
     let apiKey = "5dfc577c1d7d94e9e23a00431582f1ac"
 
+    private let displayDataCount = 8
+
     private var weatherIconArray: [UIImage] = []
     private var maxTempArray: [Double] = []
     private var minTempArray: [Double] = []
@@ -87,6 +89,7 @@ class DetailViewController: UIViewController {
         let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude, longitude: longitude)
 
         client.send(request: request) { result in
+            print(result)
             switch result {
             case .success(let response):
                 // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
@@ -103,7 +106,7 @@ class DetailViewController: UIViewController {
                     self.maxTempArray.append(weatherData.main.maxTemp)
                     self.minTempArray.append(weatherData.main.minTemp)
                     self.humidityArray.append(weatherData.main.humidity)
-                    self.rainyPercentArray.append(weatherData.rainyPercent)
+                    self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
                     self.dateStringArray.append(weatherData.dateString)
 
                     guard let iconId = weatherData.weather.first?.weatherIconId else {
@@ -133,7 +136,7 @@ class DetailViewController: UIViewController {
                     self.view.isUserInteractionEnabled = true
 
                     // グラフの表示
-                    self.displayChart(data: self.kariData!.rainyPercentArray)
+                    self.displayChart(data: self.rainyPercentArray)
                     // テーブルビューの表示
                     self.detailTableView.dataSource = self
                 }
@@ -148,8 +151,8 @@ class DetailViewController: UIViewController {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
 
-        for (xValue, yValue) in data.enumerated() {
-            let dataEntry = ChartDataEntry(x: Double(xValue), y: yValue)
+        for i in 0..<displayDataCount {
+            let dataEntry = ChartDataEntry(x: Double(i), y: data[i])
             dataEntries.append(dataEntry)
         }
         // グラフにデータを適用
@@ -186,7 +189,7 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return displayDataCount
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
