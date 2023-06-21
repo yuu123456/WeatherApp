@@ -151,6 +151,7 @@ class DetailViewController: UIViewController {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
 
+        //グラフに表示するデータの保管（ここで表示するデータ数も指定しているが、そもそもAPIにて取得データ数に制限も可能）
         for i in 0..<displayDataCount {
             let dataEntry = ChartDataEntry(x: Double(i), y: data[i])
             dataEntries.append(dataEntry)
