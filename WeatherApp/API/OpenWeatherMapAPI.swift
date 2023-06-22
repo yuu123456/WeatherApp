@@ -19,7 +19,7 @@ public final class OpenWeatherMapAPI {
         private let lang: String = "ja"
 
         // APIRequestが要求する連想型？
-        public typealias Response = SearchResponse<WeatherData>
+        public typealias Response = WeatherData
 
         public var method: HTTPMethod {
             return .get

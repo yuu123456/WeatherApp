@@ -8,7 +8,7 @@
 import UIKit
 
 final class GetWeatherIcon {
-    //唯一のインスタンスを持つ必要性がないため、シングルトンでなくて良い
+    // 唯一のインスタンスを持つ必要性がないため、シングルトンでなくて良い
     /// 取得した天気アイコンIdから、天気アイコン画像を取得するメソッド。取得した画像をクロージャに渡す。
     static func getWeatherIcon(iconId: String, completion: @escaping (UIImage?) -> Void) {
         // アイコン画像を取得するURLの生成
