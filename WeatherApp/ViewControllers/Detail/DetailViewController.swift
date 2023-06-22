@@ -111,7 +111,7 @@ class DetailViewController: UIViewController {
                     // タイムスタンプをDate型にし、各表示形式に変換、格納する
                     let date = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForTableViewSection
                     let time = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForChartsAndTableView
-                    //グラフX軸用の配列に追加
+                    // グラフX軸用の配列に追加
                     self.timeArray.append(time)
 
                     // 同じ日付を含む要素のインデックス番号を取得する。
@@ -206,11 +206,11 @@ class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
-    //１セクションにおけるcエルの数の定義
+    // １セクションにおけるcエルの数の定義
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dateTimeArray[section].time.count
     }
-    //セルの値の定義
+    // セルの値の定義
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
@@ -222,11 +222,11 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
 
         return cell
     }
-    //セクション数の定義
+    // セクション数の定義
     func numberOfSections(in tableView: UITableView) -> Int {
         return dateTimeArray.count
     }
-    //セクションの値の定義
+    // セクションの値の定義
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return dateTimeArray[section].date
     }
