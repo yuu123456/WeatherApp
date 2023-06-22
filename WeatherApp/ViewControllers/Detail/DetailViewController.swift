@@ -38,7 +38,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getWeatherDataFromLocationInfoAndUpdateView(latitude: latitude, longitude: longitude)
+        getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
 
         kariData?.setTimeArray()
         displayChart(data: kariData!.rainyPercentArray)
@@ -61,7 +61,7 @@ class DetailViewController: UIViewController {
     }
 
     /// 位置情報をもとに天気データを取得しViewを更新するメソッド
-    private func getWeatherDataFromLocationInfoAndUpdateView(latitude: Double?, longitude: Double?) {
+    private func getWeatherDataFromLocation(latitude: Double?, longitude: Double?) {
         guard let latitude = latitude,
               let longitude = longitude else {
                   print("緯度及び軽度が不正です")
