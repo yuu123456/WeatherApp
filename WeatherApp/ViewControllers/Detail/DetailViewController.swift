@@ -97,7 +97,7 @@ class DetailViewController: UIViewController {
                     // 複数の非同期処理に入る
                     dispatchGroup.enter()
                     // 非同期処理①：取得したアイコンIdから画像を取得
-                    GetWeatherIcon.shared.getWeatherIcon(iconId: iconId) { weatherIcon in
+                    GetWeatherIcon.getWeatherIcon(iconId: iconId) { weatherIcon in
                         // 非同期処理②：取得した画像を都度配列に格納　※この処理は①に含めば不要ではないか・・・？
                         DispatchQueue.main.async {
                             if let weatherIcon = weatherIcon {
