@@ -98,14 +98,11 @@ class DetailViewController: UIViewController {
                     dispatchGroup.enter()
                     // 非同期処理①：取得したアイコンIdから画像を取得
                     GetWeatherIcon.getWeatherIcon(iconId: iconId) { weatherIcon in
-                        // 非同期処理②：取得した画像を都度配列に格納　※この処理は①に含めば不要ではないか・・・？
-                        DispatchQueue.main.async {
-                            if let weatherIcon = weatherIcon {
-                                self.weatherIconArray.append(weatherIcon)
-                            }
-                            // 複数の非同期処理の完了
-                            dispatchGroup.leave()
+                        if let weatherIcon = weatherIcon {
+                            self.weatherIconArray.append(weatherIcon)
                         }
+                        // 複数の非同期処理の完了
+                        dispatchGroup.leave()
                     }
                 }
                 // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
