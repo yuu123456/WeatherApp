@@ -92,7 +92,7 @@ class DetailViewController: UIViewController {
 
                     guard let iconId = weatherData.weather.first?.weatherIconId else {
                         print("iconIdが取得できていません")
-                        return
+                        continue
                     }
                     // 複数の非同期処理に入る
                     dispatchGroup.enter()
