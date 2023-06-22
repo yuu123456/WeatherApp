@@ -50,7 +50,7 @@ class DetailViewController: UIViewController {
         if let location = location {
             locationLabel.text = location
         } else {
-            locationLabel.text = "取得した現在地（仮）"
+            locationLabel.text = "読込み中・・・"
             print("Locationは選択されていません（Main画面から遷移しました）")
         }
 
@@ -98,6 +98,8 @@ class DetailViewController: UIViewController {
                 self.rainyPercentArray = []
                 self.timeArray = []
 
+                self.location = response.city.name
+
                 for weatherData in response.list {
                     self.maxTempArray.append(weatherData.main.maxTemp)
                     self.minTempArray.append(weatherData.main.minTemp)
@@ -130,6 +132,9 @@ class DetailViewController: UIViewController {
                     self.activityIndicatorView.stopAnimating()
                     // タップの有効化
                     self.view.isUserInteractionEnabled = true
+
+                    // 取得した地名を表示
+                    self.locationLabel.text = self.location
 
                     // グラフの表示
                     self.displayChart(data: self.rainyPercentArray)
