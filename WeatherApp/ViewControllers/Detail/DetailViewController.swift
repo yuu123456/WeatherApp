@@ -15,9 +15,6 @@ class DetailViewController: UIViewController {
     var longitude: Double?
     let apiKey = "5dfc577c1d7d94e9e23a00431582f1ac"
 
-    // 表示するデータ数（表示するデータ数も指定しているが、そもそもAPIにて取得データ数に制限も可能）
-    private let displayDataCount = 8
-
     private var weatherIconArray: [UIImage] = []
     private var maxTempArray: [Double] = []
     private var minTempArray: [Double] = []
@@ -168,8 +165,8 @@ class DetailViewController: UIViewController {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
 
-        // グラフに表示するデータの保管
-        for i in 0..<displayDataCount {
+        // グラフに表示するデータの保管(
+        for i in 0..<timeArray.count {
             let dataEntry = ChartDataEntry(x: Double(i), y: data[i])
             dataEntries.append(dataEntry)
         }
