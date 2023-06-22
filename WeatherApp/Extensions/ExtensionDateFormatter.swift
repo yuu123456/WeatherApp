@@ -24,4 +24,13 @@ extension DateFormatter {
         dateFormatter.dateFormat = "HH:mm"
         return dateFormatter
     }
+
+    /// セクションに表示する日付"MM月dd日"に変換するフォーマッター
+    static var formatterJapaneseDateForTableViewSection: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+        dateFormatter.dateFormat = "MM月dd日"
+        return dateFormatter
+    }
 }

@@ -23,7 +23,10 @@ class DetailViewController: UIViewController {
     private var minTempArray: [Double] = []
     private var humidityArray: [Int] = []
     private var rainyPercentArray: [Double] = []
+    /// グラフのX軸ラベル用
     private var timeArray: [String] = []
+    /// tableViewでセクション分けしやすい型（タプル。日付毎に時間配列を持たせる）
+    private var dateTimeArray: [(date: String, time: [String])] = []
 
     private var activityIndicatorView = UIActivityIndicatorView()
 
@@ -105,8 +108,20 @@ class DetailViewController: UIViewController {
                     self.minTempArray.append(weatherData.main.minTemp)
                     self.humidityArray.append(weatherData.main.humidity)
                     self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
-                    // タイムスタンプをDate型にし、変換、格納する
-                    self.timeArray.append(Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForChartsAndTableView)
+                    // タイムスタンプをDate型にし、各表示形式に変換、格納する
+                    let date = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForTableViewSection
+                    let time = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForChartsAndTableView
+                    //グラフX軸用の配列に追加
+                    self.timeArray.append(time)
+
+                    // 同じ日付を含む要素のインデックス番号を取得する。
+                    if let index = self.dateTimeArray.firstIndex(where: { $0.date == date }) {
+                        // dateに同じ日付がある場合、そのインデックス番号のtime配列に時間を追加
+                        self.dateTimeArray[index].time.append(time)
+                    } else {
+                        // dateに同じ日付がない場合、新たな要素として、日付と時間を追加する
+                        self.dateTimeArray.append((date: date, time: [time]))
+                    }
 
                     guard let iconId = weatherData.weather.first?.weatherIconId else {
                         print("iconIdが取得できていません")
@@ -191,20 +206,28 @@ class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
+    //１セクションにおけるcエルの数の定義
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return displayDataCount
+        return dateTimeArray[section].time.count
     }
-
+    //セルの値の定義
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
         cell.weatherImage.image = weatherIconArray[indexPath.row]
-
         cell.maxTempLabel.text = "最高気温：" + String(maxTempArray[indexPath.row]) + "℃"
         cell.minTempLabel.text = "最低気温：" + String(minTempArray[indexPath.row]) + "℃"
         cell.humidLabel.text = "湿度：" + String(humidityArray[indexPath.row]) + "％"
-        cell.timeLabel.text = timeArray[indexPath.row]
+        cell.timeLabel.text = dateTimeArray[indexPath.section].time[indexPath.row]
 
         return cell
+    }
+    //セクション数の定義
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return dateTimeArray.count
+    }
+    //セクションの値の定義
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return dateTimeArray[section].date
     }
 }

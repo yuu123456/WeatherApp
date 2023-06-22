@@ -17,4 +17,9 @@ extension Date {
     var formatJapaneseDateStyleForChartsAndTableView: String {
         return DateFormatter.formatterJapaneseDateForChartsAndTableView.string(from: self)
     }
+
+    /// セクションに表示する日付"MM月dd日"に変換する
+    var formatJapaneseDateStyleForTableViewSection: String {
+        return DateFormatter.formatterJapaneseDateForTableViewSection.string(from: self)
+    }
 }
