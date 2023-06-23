@@ -41,7 +41,6 @@ class DetailViewController: UIViewController {
         getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
 
         kariData?.setTimeArray()
-        displayChart(data: kariData!.rainyPercentArray)
 
         dateLabel.text = Date().japaneseDateStyle
 
@@ -53,10 +52,7 @@ class DetailViewController: UIViewController {
         }
 
         detailTableView.delegate = self
-        detailTableView.dataSource = self
-
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
-
         detailTableView.rowHeight = 100
     }
 
@@ -73,46 +69,53 @@ class DetailViewController: UIViewController {
         client.send(request: request) { result in
             switch result {
             case .success(let response):
-                // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
-                let dispatchGroup = DispatchGroup()
-                // 仮画像の削除
-                self.weatherIconArray = []
-                self.maxTempArray = []
-                self.minTempArray = []
-                self.humidityArray = []
-                self.rainyPercentArray = []
-                self.dateStringArray = []
-
-                for weatherData in response.list {
-                    self.maxTempArray.append(weatherData.main.maxTemp)
-                    self.minTempArray.append(weatherData.main.minTemp)
-                    self.humidityArray.append(weatherData.main.humidity)
-                    self.rainyPercentArray.append(weatherData.rainyPercent)
-                    self.dateStringArray.append(weatherData.dateString)
-
-                    guard let iconId = weatherData.weather.first?.weatherIconId else {
-                        print("iconIdが取得できていません")
-                        continue
-                    }
-                    // 複数の非同期処理に入る
-                    dispatchGroup.enter()
-                    // 非同期処理①：取得したアイコンIdから画像を取得
-                    GetWeatherIcon.getWeatherIcon(iconId: iconId) { weatherIcon in
-                        if let weatherIcon = weatherIcon {
-                            self.weatherIconArray.append(weatherIcon)
-                        }
-                        // 複数の非同期処理の完了
-                        dispatchGroup.leave()
-                    }
-                }
-                // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
-                dispatchGroup.notify(queue: .main) {
-                    self.detailTableView.reloadData()
-                }
+                self.updateView(response: response)
 
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+
+    private func updateView(response: WeatherData) {
+        // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
+        let dispatchGroup = DispatchGroup()
+        // 仮画像の削除
+        self.weatherIconArray = []
+        self.maxTempArray = []
+        self.minTempArray = []
+        self.humidityArray = []
+        self.rainyPercentArray = []
+        self.dateStringArray = []
+
+        for weatherData in response.list {
+            self.maxTempArray.append(weatherData.main.maxTemp)
+            self.minTempArray.append(weatherData.main.minTemp)
+            self.humidityArray.append(weatherData.main.humidity)
+            self.rainyPercentArray.append(weatherData.rainyPercent)
+            self.dateStringArray.append(weatherData.dateString)
+
+            guard let iconId = weatherData.weather.first?.weatherIconId else {
+                print("iconIdが取得できていません")
+                continue
+            }
+            // 複数の非同期処理に入る
+            dispatchGroup.enter()
+            // 非同期処理①：取得したアイコンIdから画像を取得
+            GetWeatherIcon.getWeatherIcon(iconId: iconId) { weatherIcon in
+                if let weatherIcon = weatherIcon {
+                    self.weatherIconArray.append(weatherIcon)
+                }
+                // 複数の非同期処理の完了
+                dispatchGroup.leave()
+            }
+        }
+        // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
+        dispatchGroup.notify(queue: .main) {
+            self.detailTableView.dataSource = self
+            self.detailTableView.reloadData()
+            self.displayChart(data: self.kariData!.rainyPercentArray)
+
         }
     }
 
