@@ -66,7 +66,10 @@ class DetailViewController: UIViewController {
         let client = APIClient(httpClient: URLSession.shared)
         let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude, longitude: longitude)
 
-        client.send(request: request) { result in
+        // 非同期処理のクロージャ内でselfを参照する場合、弱参照とする（循環参照回避のため）→　selfがオプショナル型になる
+        client.send(request: request) { [weak self] result in
+            // selfがオプショナル型のため
+            guard let self = self else { return }
             switch result {
             case .success(let response):
                 self.updateView(response: response)
@@ -102,7 +105,8 @@ class DetailViewController: UIViewController {
             // 複数の非同期処理に入る
             dispatchGroup.enter()
             // 非同期処理①：取得したアイコンIdから画像を取得
-            GetWeatherIcon.getWeatherIcon(iconId: iconId) { weatherIcon in
+            GetWeatherIcon.getWeatherIcon(iconId: iconId) { [weak self] weatherIcon in
+                guard let self = self else { return }
                 if let weatherIcon = weatherIcon {
                     self.weatherIconArray.append(weatherIcon)
                 }
