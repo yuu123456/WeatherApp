@@ -108,8 +108,9 @@ class DetailViewController: UIViewController {
         self.location = response.city.name
 
         for weatherData in response.list {
-            self.maxTempArray.append(weatherData.main.maxTemp)
-            self.minTempArray.append(weatherData.main.minTemp)
+            //気温は小数第一まで表示するため、四捨五入する
+            self.maxTempArray.append(weatherData.main.maxTemp.roundToSecondDecimalPlace())
+            self.minTempArray.append(weatherData.main.minTemp.roundToSecondDecimalPlace())
             self.humidityArray.append(weatherData.main.humidity)
             self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
             // タイムスタンプをDate型にし、各表示形式に変換、格納する
