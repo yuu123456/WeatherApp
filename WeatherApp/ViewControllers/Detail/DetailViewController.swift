@@ -70,6 +70,13 @@ class DetailViewController: UIViewController {
         // インジケータの表示及びアニメーションスタート
         activityIndicatorView.startAnimating()
     }
+    /// 通信中（読み込み中）インジケータの表示を止めるメソッド
+    private func stopDisplayActivityIndicatorView() {
+        // インジケータ非表示
+        self.activityIndicatorView.stopAnimating()
+        // タップの有効化
+        self.view.isUserInteractionEnabled = true
+    }
 
     /// 位置情報をもとに天気データを取得しViewを更新するメソッド
     private func getWeatherDataFromLocation(latitude: Double?, longitude: Double?) {
@@ -146,14 +153,10 @@ class DetailViewController: UIViewController {
         }
         // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
         dispatchGroup.notify(queue: .main) {
-            // インジケータ非表示
-            self.activityIndicatorView.stopAnimating()
-            // タップの有効化
-            self.view.isUserInteractionEnabled = true
-
+            //インジケータ表示停止
+            self.stopDisplayActivityIndicatorView()
             // 取得した地名を表示
             self.locationLabel.text = self.location
-
             // グラフの表示
             self.displayChart(data: self.rainyPercentArray)
             // テーブルビューの表示
