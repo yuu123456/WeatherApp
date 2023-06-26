@@ -13,6 +13,14 @@ class DetailViewController: UIViewController {
     var location: String?
     var latitude: Double?
     var longitude: Double?
+    // Icon画像取得前にtableViewがクラッシュしないように仮処置
+    private var weatherIconArray: [UIImage] = [UIImage.add, UIImage.add, UIImage.add, UIImage.add]
+
+    private var maxTempArray: [Double] = [0, 0, 0, 0]
+    private var minTempArray: [Double] = [0, 0, 0, 0]
+    private var humidityArray: [Int] = [0, 0, 0, 0]
+    private var rainyPercentArray: [Double] = [0, 0, 0, 0]
+    private var dateStringArray: [String] = ["", "", "", ""]
 
     private var kariData: KariData? = KariData()
 
@@ -30,8 +38,9 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
+
         kariData?.setTimeArray()
-        displayChart(data: kariData!.rainyPercentArray)
 
         dateLabel.text = Date().japaneseDateStyle
 
@@ -43,11 +52,75 @@ class DetailViewController: UIViewController {
         }
 
         detailTableView.delegate = self
-        detailTableView.dataSource = self
-
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
-
         detailTableView.rowHeight = 100
+    }
+
+    /// 位置情報をもとに天気データを取得しViewを更新するメソッド
+    private func getWeatherDataFromLocation(latitude: Double?, longitude: Double?) {
+        guard let latitude = latitude,
+              let longitude = longitude else {
+                  print("緯度及び軽度が不正です")
+                  return
+              }
+        let client = APIClient(httpClient: URLSession.shared)
+        let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude, longitude: longitude)
+
+        // 非同期処理のクロージャ内でselfを参照する場合、弱参照とする（循環参照回避のため）→　selfがオプショナル型になる
+        client.send(request: request) { [weak self] result in
+            // selfがオプショナル型のため
+            guard let self = self else { return }
+            switch result {
+            case .success(let response):
+                self.updateView(response: response)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
+    private func updateView(response: WeatherData) {
+        // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
+        let dispatchGroup = DispatchGroup()
+        // 仮画像の削除
+        self.weatherIconArray = []
+        self.maxTempArray = []
+        self.minTempArray = []
+        self.humidityArray = []
+        self.rainyPercentArray = []
+        self.dateStringArray = []
+
+        for weatherData in response.list {
+            self.maxTempArray.append(weatherData.main.maxTemp)
+            self.minTempArray.append(weatherData.main.minTemp)
+            self.humidityArray.append(weatherData.main.humidity)
+            self.rainyPercentArray.append(weatherData.rainyPercent)
+            self.dateStringArray.append(weatherData.dateString)
+
+            guard let iconId = weatherData.weather.first?.weatherIconId else {
+                print("iconIdが取得できていません")
+                continue
+            }
+            // 複数の非同期処理に入る
+            dispatchGroup.enter()
+            // 非同期処理①：取得したアイコンIdから画像を取得
+            GetWeatherIcon.getWeatherIcon(iconId: iconId) { [weak self] weatherIcon in
+                guard let self = self else { return }
+                if let weatherIcon = weatherIcon {
+                    self.weatherIconArray.append(weatherIcon)
+                }
+                // 複数の非同期処理の完了
+                dispatchGroup.leave()
+            }
+        }
+        // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
+        dispatchGroup.notify(queue: .main) {
+            self.detailTableView.dataSource = self
+            self.detailTableView.reloadData()
+            self.displayChart(data: self.kariData!.rainyPercentArray)
+
+        }
     }
 
     private func displayChart(data: [Double]) {
@@ -98,12 +171,14 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
+        cell.weatherImage.image = weatherIconArray[indexPath.row]
+
+        cell.maxTempLabel.text = "最高気温：" + String(maxTempArray[indexPath.row]) + "℃"
+        cell.minTempLabel.text = "最低気温：" + String(minTempArray[indexPath.row]) + "℃"
+        cell.humidLabel.text = "湿度：" + String(humidityArray[indexPath.row]) + "％"
+
         if let data = kariData {
             cell.timeLabel.text = data.timeArray[indexPath.row]
-            cell.weatherImage.image = data.weatherArray[indexPath.row].getWeatherImage()
-            cell.maxTempLabel.text = "最高気温：" + String(data.maxTempArray[indexPath.row]) + "℃"
-            cell.minTempLabel.text = "最低気温：" + String(data.minTempArray[indexPath.row]) + "℃"
-            cell.humidLabel.text = "湿度：" + String(data.humidArray[indexPath.row]) + "％"
         }
 
         return cell
