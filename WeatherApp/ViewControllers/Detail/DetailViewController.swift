@@ -115,14 +115,14 @@ class DetailViewController: UIViewController {
         self.location = response.city.name
 
         for weatherData in response.list {
-            //気温は小数第一まで表示するため、四捨五入する
+            // 気温は小数第一まで表示するため、四捨五入する
             self.maxTempArray.append(weatherData.main.maxTemp.roundToSecondDecimalPlace())
             self.minTempArray.append(weatherData.main.minTemp.roundToSecondDecimalPlace())
             self.humidityArray.append(weatherData.main.humidity)
             self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
             // タイムスタンプをDate型にし、各表示形式に変換、格納する
-            let date = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForTableViewSection
-            let time = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForChartsAndTableView
+            let date = Date(timeIntervalSince1970: weatherData.timeStamp).formatJapaneseDateStyleForTableViewSection
+            let time = Date(timeIntervalSince1970: weatherData.timeStamp).formatJapaneseDateStyleForChartsAndTableView
             // グラフX軸用の配列に追加
             self.timeArray.append(time)
 
@@ -153,7 +153,7 @@ class DetailViewController: UIViewController {
         }
         // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
         dispatchGroup.notify(queue: .main) {
-            //インジケータ表示停止
+            // インジケータ表示停止
             self.stopDisplayActivityIndicatorView()
             // 取得した地名を表示
             self.locationLabel.text = self.location

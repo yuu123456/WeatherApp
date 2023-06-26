@@ -19,13 +19,13 @@ public struct List: Decodable {
     public var weather: [Weather]
     public var rainyPercent: Double
     /// 取得されるタイムスタンプはUTC（協定世界時）が基準のため。TimeIntervalはUnix時間を表す型
-    public var dateStamp: TimeInterval
+    public var timeStamp: TimeInterval
 
     public enum CodingKeys: String, CodingKey {
         case main
         case weather
         case rainyPercent = "pop"
-        case dateStamp = "dt"
+        case timeStamp = "dt"
     }
 }
 
