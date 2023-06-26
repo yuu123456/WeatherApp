@@ -13,7 +13,6 @@ class DetailViewController: UIViewController {
     var location: String?
     var latitude: Double?
     var longitude: Double?
-    let apiKey = "5dfc577c1d7d94e9e23a00431582f1ac"
 
     private var weatherIconArray: [UIImage] = []
     private var maxTempArray: [Double] = []
@@ -43,9 +42,8 @@ class DetailViewController: UIViewController {
 
         displayActivityIndicatorView()
 
-        getWeatherDataFromLocationInfoAndUpdateView(latitude: latitude, longitude: longitude)
-
         dateLabel.text = Date().formatJapaneseDateStyle
+        getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
 
         if let location = location {
             locationLabel.text = location
@@ -55,9 +53,7 @@ class DetailViewController: UIViewController {
         }
 
         detailTableView.delegate = self
-
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
-
         detailTableView.rowHeight = 100
     }
     /// 通信中（読み込み中）インジケータを表示するメソッド
@@ -76,7 +72,7 @@ class DetailViewController: UIViewController {
     }
 
     /// 位置情報をもとに天気データを取得しViewを更新するメソッド
-    private func getWeatherDataFromLocationInfoAndUpdateView(latitude: Double?, longitude: Double?) {
+    private func getWeatherDataFromLocation(latitude: Double?, longitude: Double?) {
         guard let latitude = latitude,
               let longitude = longitude else {
                   print("緯度及び軽度が不正です")
@@ -85,79 +81,83 @@ class DetailViewController: UIViewController {
         let client = APIClient(httpClient: URLSession.shared)
         let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude, longitude: longitude)
 
-        client.send(request: request) { result in
+        // 非同期処理のクロージャ内でselfを参照する場合、弱参照とする（循環参照回避のため）→　selfがオプショナル型になる
+        client.send(request: request) { [weak self] result in
+            // selfがオプショナル型のため
+            guard let self = self else { return }
             switch result {
             case .success(let response):
-                // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
-                let dispatchGroup = DispatchGroup()
-                // 仮画像の削除
-                self.weatherIconArray = []
-                self.maxTempArray = []
-                self.minTempArray = []
-                self.humidityArray = []
-                self.rainyPercentArray = []
-                self.timeArray = []
-
-                self.location = response.city.name
-
-                for weatherData in response.list {
-                    self.maxTempArray.append(weatherData.main.maxTemp)
-                    self.minTempArray.append(weatherData.main.minTemp)
-                    self.humidityArray.append(weatherData.main.humidity)
-                    self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
-                    // タイムスタンプをDate型にし、各表示形式に変換、格納する
-                    let date = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForTableViewSection
-                    let time = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForChartsAndTableView
-                    // グラフX軸用の配列に追加
-                    self.timeArray.append(time)
-
-                    // 同じ日付を含む要素のインデックス番号を取得する。
-                    if let index = self.dateTimeArray.firstIndex(where: { $0.date == date }) {
-                        // dateに同じ日付がある場合、そのインデックス番号のtime配列に時間を追加
-                        self.dateTimeArray[index].time.append(time)
-                    } else {
-                        // dateに同じ日付がない場合、新たな要素として、日付と時間を追加する
-                        self.dateTimeArray.append((date: date, time: [time]))
-                    }
-
-                    guard let iconId = weatherData.weather.first?.weatherIconId else {
-                        print("iconIdが取得できていません")
-                        return
-                    }
-                    // 複数の非同期処理に入る
-                    dispatchGroup.enter()
-                    // 非同期処理①：取得したアイコンIdから画像を取得
-                    GetWeatherIcon.shared.getWeatherIcon(iconId: iconId) { weatherIcon in
-                        // 非同期処理②：取得した画像を都度配列に格納　※この処理は①に含めば不要ではないか・・・？
-                        DispatchQueue.main.async {
-                            if let weatherIcon = weatherIcon {
-                                self.weatherIconArray.append(weatherIcon)
-                            }
-                            // 複数の非同期処理の完了
-                            dispatchGroup.leave()
-                        }
-                    }
-                }
-                // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
-                dispatchGroup.notify(queue: .main) {
-                    // インジケータ非表示
-                    self.activityIndicatorView.stopAnimating()
-                    // タップの有効化
-                    self.view.isUserInteractionEnabled = true
-
-                    // 取得した地名を表示
-                    self.locationLabel.text = self.location
-
-                    // グラフの表示
-                    self.displayChart(data: self.rainyPercentArray)
-                    // テーブルビューの表示
-                    self.detailTableView.dataSource = self
-                    self.detailTableView.reloadData()
-                }
+                self.updateView(response: response)
 
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+
+    private func updateView(response: WeatherData) {
+        // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
+        let dispatchGroup = DispatchGroup()
+        // 仮画像の削除
+        self.weatherIconArray = []
+        self.maxTempArray = []
+        self.minTempArray = []
+        self.humidityArray = []
+        self.rainyPercentArray = []
+        self.timeArray = []
+        self.location = response.city.name
+
+        for weatherData in response.list {
+            self.maxTempArray.append(weatherData.main.maxTemp)
+            self.minTempArray.append(weatherData.main.minTemp)
+            self.humidityArray.append(weatherData.main.humidity)
+            self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
+            // タイムスタンプをDate型にし、各表示形式に変換、格納する
+            let date = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForTableViewSection
+            let time = Date(timeIntervalSince1970: weatherData.dateStamp).formatJapaneseDateStyleForChartsAndTableView
+            // グラフX軸用の配列に追加
+            self.timeArray.append(time)
+
+            // 同じ日付を含む要素のインデックス番号を取得する。
+            if let index = self.dateTimeArray.firstIndex(where: { $0.date == date }) {
+                // dateに同じ日付がある場合、そのインデックス番号のtime配列に時間を追加
+                self.dateTimeArray[index].time.append(time)
+            } else {
+                // dateに同じ日付がない場合、新たな要素として、日付と時間を追加する
+                self.dateTimeArray.append((date: date, time: [time]))
+            }
+
+            guard let iconId = weatherData.weather.first?.weatherIconId else {
+                print("iconIdが取得できていません")
+                continue
+            }
+            // 複数の非同期処理に入る
+            dispatchGroup.enter()
+            // 非同期処理①：取得したアイコンIdから画像を取得
+            GetWeatherIcon.getWeatherIcon(iconId: iconId) { [weak self] weatherIcon in
+                guard let self = self else { return }
+                if let weatherIcon = weatherIcon {
+                    self.weatherIconArray.append(weatherIcon)
+                }
+                // 複数の非同期処理の完了
+                dispatchGroup.leave()
+            }
+        }
+        // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
+        dispatchGroup.notify(queue: .main) {
+            // インジケータ非表示
+            self.activityIndicatorView.stopAnimating()
+            // タップの有効化
+            self.view.isUserInteractionEnabled = true
+
+            // 取得した地名を表示
+            self.locationLabel.text = self.location
+
+            // グラフの表示
+            self.displayChart(data: self.rainyPercentArray)
+            // テーブルビューの表示
+            self.detailTableView.dataSource = self
+            self.detailTableView.reloadData()
         }
     }
 
