@@ -22,15 +22,24 @@ public final class OpenWeatherMapAPI {
         public let longitude: Double
         // APIRequestが要求する連想型？
         public typealias Response = WeatherData
-        public var method: HTTPMethod {
-            return .get
-        }
-        public var path: String {
-            return "/data/2.5/forecast"
-        }
+
         public var queryItems: [URLQueryItem] {
             return [URLQueryItem(name: "lat", value: String(latitude)),
                     URLQueryItem(name: "lon", value: String(longitude)),
+                    URLQueryItem(name: "appid", value: OpenWeatherMapAPI().apiKey),
+                    URLQueryItem(name: "units", value: OpenWeatherMapAPI().units),
+                    URLQueryItem(name: "lang", value: OpenWeatherMapAPI().lang),
+                    URLQueryItem(name: "cnt", value: OpenWeatherMapAPI().cnt)]
+        }
+    }
+    /// 都市名を元に、天気情報を取得するAPI
+    public struct SearchWeatherDataFromCityName: APIRequest {
+        public let cityName: String
+        // APIRequestが要求する連想型？
+        public typealias Response = WeatherData
+
+        public var queryItems: [URLQueryItem] {
+            return [URLQueryItem(name: "q", value: cityName),
                     URLQueryItem(name: "appid", value: OpenWeatherMapAPI().apiKey),
                     URLQueryItem(name: "units", value: OpenWeatherMapAPI().units),
                     URLQueryItem(name: "lang", value: OpenWeatherMapAPI().lang),

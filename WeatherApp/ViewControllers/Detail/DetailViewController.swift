@@ -41,13 +41,14 @@ class DetailViewController: UIViewController {
         LoadingIndicator.display(loadingIndicatorView: self.view)
 
         dateLabel.text = Date().formatJapaneseDateStyle
-        getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
 
         if let location = location {
             locationLabel.text = location
+            getWeatherDataFromCityName(location: location)
         } else {
             locationLabel.text = "読込み中・・・"
             print("Locationは選択されていません（Main画面から遷移しました）")
+            getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
         }
         detailTableView.dataSource = self
         detailTableView.delegate = self
@@ -64,6 +65,27 @@ class DetailViewController: UIViewController {
         let client = APIClient(httpClient: URLSession.shared)
         let request = OpenWeatherMapAPI.SearchWeatherData(latitude: latitude, longitude: longitude)
 
+        // 非同期処理のクロージャ内でselfを参照する場合、弱参照とする（循環参照回避のため）→　selfがオプショナル型になる
+        client.send(request: request) { [weak self] result in
+            // selfがオプショナル型のため
+            guard let self = self else { return }
+            switch result {
+            case .success(let response):
+                self.updateView(response: response)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    /// 都市名をもとに天気データを取得しViewを更新するメソッド
+    private func getWeatherDataFromCityName(location: String?) {
+        guard let location = location else {
+                  print("都市名が不正です")
+                  return
+              }
+        let client = APIClient(httpClient: URLSession.shared)
+        let request = OpenWeatherMapAPI.SearchWeatherDataFromCityName(cityName: location)
         // 非同期処理のクロージャ内でselfを参照する場合、弱参照とする（循環参照回避のため）→　selfがオプショナル型になる
         client.send(request: request) { [weak self] result in
             // selfがオプショナル型のため
