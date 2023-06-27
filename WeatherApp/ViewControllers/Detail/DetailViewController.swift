@@ -38,7 +38,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // 読込み中インジケータ表示
-        LoadingIndicator.display()
+        LoadingIndicator.display(loadingIndicatorView: self.view)
 
         dateLabel.text = Date().formatJapaneseDateStyle
 
@@ -50,7 +50,7 @@ class DetailViewController: UIViewController {
             print("Locationは選択されていません（Main画面から遷移しました）")
             getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
         }
-
+        detailTableView.dataSource = self
         detailTableView.delegate = self
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
         detailTableView.rowHeight = 100
@@ -171,13 +171,12 @@ class DetailViewController: UIViewController {
         // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
         dispatchGroup.notify(queue: .main) {
             // インジケータ表示停止
-            LoadingIndicator.stop()
+            LoadingIndicator.stop(loadingIndicatorView: self.view)
             // 取得した地名を表示
             self.locationLabel.text = self.location
             // グラフの表示
             self.displayChart(data: self.rainyPercentArray)
-            // テーブルビューの表示
-            self.detailTableView.dataSource = self
+            // テーブルビューの表示更新
             self.detailTableView.reloadData()
         }
     }
