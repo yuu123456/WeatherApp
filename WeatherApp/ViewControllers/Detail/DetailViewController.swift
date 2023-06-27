@@ -14,10 +14,10 @@ class DetailViewController: UIViewController {
     var latitude: Double?
     var longitude: Double?
 
-    private var weatherIconArray: [UIImage] = []
-    private var maxTempArray: [Double] = []
-    private var minTempArray: [Double] = []
-    private var humidityArray: [Int] = []
+    private var weatherIconArray: [[UIImage]] = []
+    private var maxTempArray: [[Double]] = []
+    private var minTempArray: [[Double]] = []
+    private var humidityArray: [[Int]] = []
     private var rainyPercentArray: [Double] = []
     /// グラフのX軸ラベル用
     private var timeArray: [String] = []
@@ -72,6 +72,7 @@ class DetailViewController: UIViewController {
             switch result {
             case .success(let response):
                 self.updateView(response: response)
+                print(maxTempArray)
 
             case .failure(let error):
                 print(error)
@@ -113,10 +114,6 @@ class DetailViewController: UIViewController {
         self.location = response.city.name
 
         for weatherData in response.list {
-            // 気温は小数第一まで表示するため、四捨五入する
-            self.maxTempArray.append(weatherData.main.maxTemp.roundToSecondDecimalPlace())
-            self.minTempArray.append(weatherData.main.minTemp.roundToSecondDecimalPlace())
-            self.humidityArray.append(weatherData.main.humidity)
             self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
             // タイムスタンプをDate型にし、各表示形式に変換、格納する
             let date = Date(timeIntervalSince1970: weatherData.timeStamp).formatJapaneseDateStyleForTableViewSection
@@ -128,25 +125,47 @@ class DetailViewController: UIViewController {
             if let index = self.dateTimeArray.firstIndex(where: { $0.date == date }) {
                 // dateに同じ日付がある場合、そのインデックス番号のtime配列に時間を追加
                 self.dateTimeArray[index].time.append(time)
+                self.maxTempArray[index].append(weatherData.main.maxTemp.roundToSecondDecimalPlace())
+                self.minTempArray[index].append(weatherData.main.minTemp.roundToSecondDecimalPlace())
+                self.humidityArray[index].append(weatherData.main.humidity)
+
+                guard let iconId = weatherData.weather.first?.weatherIconId else {
+                    print("iconIdが取得できていません")
+                    continue
+                }
+                // 複数の非同期処理に入る
+                dispatchGroup.enter()
+                // 非同期処理①：取得したアイコンIdから画像を取得
+                GetWeatherIcon.getWeatherIcon(iconId: iconId) { [weak self] weatherIcon in
+                    guard let self = self else { return }
+                    if let weatherIcon = weatherIcon {
+                        self.weatherIconArray[index].append(weatherIcon)
+                    }
+                    // 複数の非同期処理の完了
+                    dispatchGroup.leave()
+                }
             } else {
                 // dateに同じ日付がない場合、新たな要素として、日付と時間を追加する
                 self.dateTimeArray.append((date: date, time: [time]))
-            }
+                self.maxTempArray.append([weatherData.main.maxTemp.roundToSecondDecimalPlace()])
+                self.minTempArray.append([weatherData.main.minTemp.roundToSecondDecimalPlace()])
+                self.humidityArray.append([weatherData.main.humidity])
 
-            guard let iconId = weatherData.weather.first?.weatherIconId else {
-                print("iconIdが取得できていません")
-                continue
-            }
-            // 複数の非同期処理に入る
-            dispatchGroup.enter()
-            // 非同期処理①：取得したアイコンIdから画像を取得
-            GetWeatherIcon.getWeatherIcon(iconId: iconId) { [weak self] weatherIcon in
-                guard let self = self else { return }
-                if let weatherIcon = weatherIcon {
-                    self.weatherIconArray.append(weatherIcon)
+                guard let iconId = weatherData.weather.first?.weatherIconId else {
+                    print("iconIdが取得できていません")
+                    continue
                 }
-                // 複数の非同期処理の完了
-                dispatchGroup.leave()
+                // 複数の非同期処理に入る
+                dispatchGroup.enter()
+                // 非同期処理①：取得したアイコンIdから画像を取得
+                GetWeatherIcon.getWeatherIcon(iconId: iconId) { [weak self] weatherIcon in
+                    guard let self = self else { return }
+                    if let weatherIcon = weatherIcon {
+                        self.weatherIconArray.append([weatherIcon])
+                    }
+                    // 複数の非同期処理の完了
+                    dispatchGroup.leave()
+                }
             }
         }
         // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
@@ -205,7 +224,7 @@ class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
-    // １セクションにおけるcエルの数の定義
+    // １セクションにおけるセルの数の定義
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dateTimeArray[section].time.count
     }
@@ -213,10 +232,10 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
-        cell.weatherImage.image = weatherIconArray[indexPath.row]
-        cell.maxTempLabel.text = "最高気温：" + String(maxTempArray[indexPath.row]) + "℃"
-        cell.minTempLabel.text = "最低気温：" + String(minTempArray[indexPath.row]) + "℃"
-        cell.humidLabel.text = "湿度：" + String(humidityArray[indexPath.row]) + "％"
+        cell.weatherImage.image = weatherIconArray[indexPath.section][indexPath.row]
+        cell.maxTempLabel.text = "最高気温：" + String(maxTempArray[indexPath.section][indexPath.row]) + "℃"
+        cell.minTempLabel.text = "最低気温：" + String(minTempArray[indexPath.section][indexPath.row]) + "℃"
+        cell.humidLabel.text = "湿度：" + String(humidityArray[indexPath.section][indexPath.row]) + "％"
         cell.timeLabel.text = dateTimeArray[indexPath.section].time[indexPath.row]
 
         return cell
