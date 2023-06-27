@@ -17,8 +17,6 @@ public final class OpenWeatherMapAPI {
         private let units: String = "metric"
         // 日本語にするオプション
         private let lang: String = "ja"
-        // 取得するデータ数を制限するオプション（３時間＊８個　＝　２４時間分）
-        private let cnt: String = "8"
 
         // APIRequestが要求する連想型？
         public typealias Response = WeatherData
@@ -36,8 +34,7 @@ public final class OpenWeatherMapAPI {
                     URLQueryItem(name: "lon", value: String(longitude)),
                     URLQueryItem(name: "appid", value: apiKey),
                     URLQueryItem(name: "units", value: units),
-                    URLQueryItem(name: "lang", value: lang),
-                    URLQueryItem(name: "cnt", value: cnt)]
+                    URLQueryItem(name: "lang", value: lang)]
         }
     }
 }
