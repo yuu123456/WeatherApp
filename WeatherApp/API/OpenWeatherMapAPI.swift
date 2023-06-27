@@ -22,12 +22,7 @@ public final class OpenWeatherMapAPI {
         public let longitude: Double
         // APIRequestが要求する連想型？
         public typealias Response = WeatherData
-        public var method: HTTPMethod {
-            return .get
-        }
-        public var path: String {
-            return "/data/2.5/forecast"
-        }
+
         public var queryItems: [URLQueryItem] {
             return [URLQueryItem(name: "lat", value: String(latitude)),
                     URLQueryItem(name: "lon", value: String(longitude)),
@@ -42,12 +37,7 @@ public final class OpenWeatherMapAPI {
         public let cityName: String
         // APIRequestが要求する連想型？
         public typealias Response = WeatherData
-        public var method: HTTPMethod {
-            return .get
-        }
-        public var path: String {
-            return "/data/2.5/forecast"
-        }
+
         public var queryItems: [URLQueryItem] {
             return [URLQueryItem(name: "q", value: cityName),
                     URLQueryItem(name: "appid", value: OpenWeatherMapAPI().apiKey),

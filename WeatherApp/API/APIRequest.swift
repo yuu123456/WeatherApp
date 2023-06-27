@@ -22,6 +22,13 @@ public extension APIRequest {
     var baseURL: URL {
         return URL(string: "https://api.openweathermap.org")!
     }
+    // 以下のプロパティも今回使用するAPIでは共通
+    var method: HTTPMethod {
+        return .get
+    }
+    var path: String {
+        return "/data/2.5/forecast"
+    }
 
     /// リクエストを表す型をそのままでは渡せないため、URLRequest型に変換する
     func buildURLRequest() -> URLRequest {
