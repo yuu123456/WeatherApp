@@ -24,8 +24,6 @@ class DetailViewController: UIViewController {
     /// tableViewでセクション分けしやすい型（タプル。日付毎に時間配列を持たせる）
     private var dateTimeArray: [(date: String, time: [String])] = []
 
-    private var activityIndicatorView = UIActivityIndicatorView()
-
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailTableView: UITableView!
@@ -39,8 +37,8 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        displayActivityIndicatorView()
+        // 読込み中インジケータ表示
+        LoadingIndicator.displayActivityIndicatorView()
 
         dateLabel.text = Date().formatJapaneseDateStyle
         getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
@@ -56,28 +54,6 @@ class DetailViewController: UIViewController {
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
         detailTableView.rowHeight = 100
     }
-    /// 通信中（読み込み中）インジケータを表示するメソッド
-    private func displayActivityIndicatorView() {
-        // タップの無効化。ただしスワイプは可能（詳細画面閉じれる）
-        view.isUserInteractionEnabled = false
-
-        // 読み込み中画面の設定
-        activityIndicatorView.center = view.center
-        activityIndicatorView.style = .large
-        activityIndicatorView.color = .darkGray
-        // 読込み中画面の追加
-        view.addSubview(activityIndicatorView)
-        // インジケータの表示及びアニメーションスタート
-        activityIndicatorView.startAnimating()
-    }
-    /// 通信中（読み込み中）インジケータの表示を止めるメソッド
-    private func stopDisplayActivityIndicatorView() {
-        // インジケータ非表示
-        self.activityIndicatorView.stopAnimating()
-        // タップの有効化
-        self.view.isUserInteractionEnabled = true
-    }
-
     /// 位置情報をもとに天気データを取得しViewを更新するメソッド
     private func getWeatherDataFromLocation(latitude: Double?, longitude: Double?) {
         guard let latitude = latitude,
@@ -154,7 +130,7 @@ class DetailViewController: UIViewController {
         // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
         dispatchGroup.notify(queue: .main) {
             // インジケータ表示停止
-            self.stopDisplayActivityIndicatorView()
+            LoadingIndicator.stopDisplayActivityIndicatorView()
             // 取得した地名を表示
             self.locationLabel.text = self.location
             // グラフの表示
