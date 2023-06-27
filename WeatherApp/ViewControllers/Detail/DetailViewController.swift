@@ -248,3 +248,4 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         return dateTimeArray[section].date
     }
 }
+
