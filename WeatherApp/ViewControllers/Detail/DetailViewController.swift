@@ -49,7 +49,7 @@ class DetailViewController: UIViewController {
             locationLabel.text = "読込み中・・・"
             print("Locationは選択されていません（Main画面から遷移しました）")
         }
-
+        detailTableView.dataSource = self
         detailTableView.delegate = self
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
         detailTableView.rowHeight = 100
@@ -135,8 +135,7 @@ class DetailViewController: UIViewController {
             self.locationLabel.text = self.location
             // グラフの表示
             self.displayChart(data: self.rainyPercentArray)
-            // テーブルビューの表示
-            self.detailTableView.dataSource = self
+            // テーブルビューの表示更新
             self.detailTableView.reloadData()
         }
     }
