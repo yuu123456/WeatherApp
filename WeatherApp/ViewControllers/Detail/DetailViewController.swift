@@ -41,13 +41,14 @@ class DetailViewController: UIViewController {
         LoadingIndicator.display()
 
         dateLabel.text = Date().formatJapaneseDateStyle
-        getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
 
         if let location = location {
             locationLabel.text = location
+            getWeatherDataFromCityName(location: location)
         } else {
             locationLabel.text = "読込み中・・・"
             print("Locationは選択されていません（Main画面から遷移しました）")
+            getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
         }
 
         detailTableView.delegate = self
