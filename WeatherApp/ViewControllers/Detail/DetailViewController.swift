@@ -13,6 +13,8 @@ class DetailViewController: UIViewController {
     var location: String?
     var latitude: Double?
     var longitude: Double?
+    // Icon画像取得前にtableViewがクラッシュしないように仮処置
+    private var weatherIconArray: [UIImage] = [UIImage.add, UIImage.add, UIImage.add, UIImage.add]
 
     private var weatherIconArray: [[UIImage]] = []
     private var maxTempArray: [[Double]] = []
@@ -37,24 +39,27 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 読込み中インジケータ表示
-        LoadingIndicator.display(loadingIndicatorView: self.view)
 
         dateLabel.text = Date().formatJapaneseDateStyle
+
+        kariData?.setTimeArray()
+
+        dateLabel.text = Date().japaneseDateStyle
 
         if let location = location {
             locationLabel.text = location
             getWeatherDataFromCityName(location: location)
         } else {
-            locationLabel.text = "読込み中・・・"
+            locationLabel.text = "取得した現在地（仮）"
             print("Locationは選択されていません（Main画面から遷移しました）")
             getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
         }
-        detailTableView.dataSource = self
+
         detailTableView.delegate = self
         detailTableView.register(UINib(nibName: "DetailTableViewCell", bundle: nil), forCellReuseIdentifier: "DetailTableViewCell")
         detailTableView.rowHeight = 100
     }
+
     /// 位置情報をもとに天気データを取得しViewを更新するメソッド
     private func getWeatherDataFromLocation(latitude: Double?, longitude: Double?) {
         guard let latitude = latitude,
@@ -110,8 +115,7 @@ class DetailViewController: UIViewController {
         self.minTempArray = []
         self.humidityArray = []
         self.rainyPercentArray = []
-        self.timeArray = []
-        self.location = response.city.name
+        self.dateStringArray = []
 
         for weatherData in response.list {
             self.rainyPercentArray.append(weatherData.rainyPercent * 100) // 0~1の値で取得され、1 が 100％ に近いため
@@ -170,14 +174,10 @@ class DetailViewController: UIViewController {
         }
         // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
         dispatchGroup.notify(queue: .main) {
-            // インジケータ表示停止
-            LoadingIndicator.stop(loadingIndicatorView: self.view)
-            // 取得した地名を表示
-            self.locationLabel.text = self.location
-            // グラフの表示
-            self.displayChart(data: self.rainyPercentArray)
-            // テーブルビューの表示更新
+            self.detailTableView.dataSource = self
             self.detailTableView.reloadData()
+            self.displayChart(data: self.kariData!.rainyPercentArray)
+
         }
     }
 
@@ -185,9 +185,8 @@ class DetailViewController: UIViewController {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
 
-        // グラフに表示するデータの保管(
-        for i in 0..<timeArray.count {
-            let dataEntry = ChartDataEntry(x: Double(i), y: data[i])
+        for (xValue, yValue) in data.enumerated() {
+            let dataEntry = ChartDataEntry(x: Double(xValue), y: yValue)
             dataEntries.append(dataEntry)
         }
         // グラフにデータを適用
@@ -200,7 +199,7 @@ class DetailViewController: UIViewController {
 
         // X軸(xAxis)
         chartView.xAxis.labelPosition = .bottom // x軸ラベルをグラフの下に表示する
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: timeArray) // 文字列のラベルを表示する
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: kariData!.timeArray) // 文字列のラベルを表示する
         chartView.xAxis.granularity = 1 // ラベルが１単位になる
 
         // Y軸(leftAxis/rightAxis)
@@ -225,9 +224,9 @@ class DetailViewController: UIViewController {
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     // １セクションにおけるセルの数の定義
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dateTimeArray[section].time.count
+        return 4
     }
-    // セルの値の定義
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
 
@@ -238,13 +237,5 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.timeLabel.text = dateTimeArray[indexPath.section].time[indexPath.row]
 
         return cell
-    }
-    // セクション数の定義
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return dateTimeArray.count
-    }
-    // セクションの値の定義
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return dateTimeArray[section].date
     }
 }

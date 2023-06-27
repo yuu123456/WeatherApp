@@ -20,6 +20,7 @@ public final class OpenWeatherMapAPI {
     public struct SearchWeatherData: APIRequest {
         public let latitude: Double
         public let longitude: Double
+
         // APIRequestが要求する連想型？
         public typealias Response = WeatherData
 
