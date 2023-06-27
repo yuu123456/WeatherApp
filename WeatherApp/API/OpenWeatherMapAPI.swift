@@ -38,7 +38,7 @@ public final class OpenWeatherMapAPI {
         }
     }
     /// 都市名を元に、天気情報を取得するAPI
-    public struct SearchWeatherDataFromSelected: APIRequest {
+    public struct SearchWeatherDataFromCityName: APIRequest {
         public let cityName: String
         // APIRequestが要求する連想型？
         public typealias Response = WeatherData

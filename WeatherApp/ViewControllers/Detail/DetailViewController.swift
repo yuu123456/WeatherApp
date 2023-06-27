@@ -77,6 +77,27 @@ class DetailViewController: UIViewController {
             }
         }
     }
+    /// 都市名をもとに天気データを取得しViewを更新するメソッド
+    private func getWeatherDataFromCityName(location: String?) {
+        guard let location = location else {
+                  print("都市名が不正です")
+                  return
+              }
+        let client = APIClient(httpClient: URLSession.shared)
+        let request = OpenWeatherMapAPI.SearchWeatherDataFromCityName(cityName: location)
+        // 非同期処理のクロージャ内でselfを参照する場合、弱参照とする（循環参照回避のため）→　selfがオプショナル型になる
+        client.send(request: request) { [weak self] result in
+            // selfがオプショナル型のため
+            guard let self = self else { return }
+            switch result {
+            case .success(let response):
+                self.updateView(response: response)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 
     private func updateView(response: WeatherData) {
         // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
