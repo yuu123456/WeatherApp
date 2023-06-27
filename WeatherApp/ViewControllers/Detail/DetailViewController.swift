@@ -38,7 +38,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // 読込み中インジケータ表示
-        LoadingIndicator.display()
+        LoadingIndicator.display(loadingIndicatorView: self.view)
 
         dateLabel.text = Date().formatJapaneseDateStyle
         getWeatherDataFromLocation(latitude: latitude, longitude: longitude)
@@ -130,7 +130,7 @@ class DetailViewController: UIViewController {
         // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
         dispatchGroup.notify(queue: .main) {
             // インジケータ表示停止
-            LoadingIndicator.stop()
+            LoadingIndicator.stop(loadingIndicatorView: self.view)
             // 取得した地名を表示
             self.locationLabel.text = self.location
             // グラフの表示
