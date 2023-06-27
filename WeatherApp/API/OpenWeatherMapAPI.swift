@@ -37,4 +37,23 @@ public final class OpenWeatherMapAPI {
                     URLQueryItem(name: "cnt", value: OpenWeatherMapAPI().cnt)]
         }
     }
+    /// 都市名を元に、天気情報を取得するAPI
+    public struct SearchWeatherDataFromSelected: APIRequest {
+        public let cityName: String
+        // APIRequestが要求する連想型？
+        public typealias Response = WeatherData
+        public var method: HTTPMethod {
+            return .get
+        }
+        public var path: String {
+            return "/data/2.5/forecast"
+        }
+        public var queryItems: [URLQueryItem] {
+            return [URLQueryItem(name: "q", value: cityName),
+                    URLQueryItem(name: "appid", value: OpenWeatherMapAPI().apiKey),
+                    URLQueryItem(name: "units", value: OpenWeatherMapAPI().units),
+                    URLQueryItem(name: "lang", value: OpenWeatherMapAPI().lang),
+                    URLQueryItem(name: "cnt", value: OpenWeatherMapAPI().cnt)]
+        }
+    }
 }
