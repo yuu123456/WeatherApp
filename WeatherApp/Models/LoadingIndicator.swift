@@ -30,6 +30,8 @@ final class LoadingIndicator {
         guard let loadingIndicatorView = loadingIndicatorView else { return }
         // インジケータ非表示
         activityIndicatorView.stopAnimating()
+        // 読込み画面の削除
+        activityIndicatorView.removeFromSuperview()
         // タップの有効化
         loadingIndicatorView.isUserInteractionEnabled = true
     }
