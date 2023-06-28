@@ -78,5 +78,15 @@ extension MainViewController: LocationManagerDelegate {
 
     func didFailWithError(_ error: Error) {
         print("位置情報が取得できないため、遷移しません（のちにアラート実装）")
+        displayNotGetLocationDialog()
+    }
+
+    func displayNotGetLocationDialog() {
+        let title = "位置情報取得失敗"
+        let message = "位置情報の取得ができません。設定を見直してください。"
+        let dialog = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default)
+        dialog.addAction(alertAction)
+        self.present(dialog, animated: true, completion: nil)
     }
 }
