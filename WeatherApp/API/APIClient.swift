@@ -27,13 +27,13 @@ public class APIClient {
                     let response = try
                     request.response(from: data, urlResponse: urlResponse)
                     completion(Result.success(response))
-                } catch let error as APIError {
-                    completion(Result.failure(.apiError(error)))
+                } catch _ as APIError {
+                    completion(Result.failure(.apiError))
                 } catch {
-                    completion(Result.failure(.responseParseError(error)))
+                    completion(Result.failure(.responseParseError))
                 }
-            case .failure(let error):
-                completion(.failure(.connectionError(error)))
+            case .failure:
+                completion(.failure(.connectionError))
             }
         }
     }
