@@ -166,21 +166,14 @@ class DetailViewController: UIViewController {
                 self.weatherIdArray.append([iconId])
             }
         }
-        print(weatherIdArray)
         // 非同期処理①：取得したアイコンIdから画像を取得
         // 外側の配列の要素数をセクション数と見なし、セクションの数分、繰り返す
         for sectionCount in 0..<weatherIdArray.count {
-            print("sectionCount:\(sectionCount)")
             // 内側の配列の要素数分、繰り返す
             for idCount in 0..<weatherIdArray[sectionCount].count {
-                print("idCount:\(idCount)")
                 GetWeatherIcon.getWeatherIcon(iconId: weatherIdArray[sectionCount][idCount]) { [weak self] weatherIcon in
                     guard let self = self else { return }
                     if let weatherIcon = weatherIcon {
-                        print("##\(self.weatherIconArray)")
-
-                        print(sectionCount)
-                        print(weatherIconArray.count)
                         // セクションカウントがアイコンを格納する配列の要素数と等しい時、新たな配列追加
                         // そうでない場合は、既存の配列に要素を追加
                         if sectionCount == weatherIconArray.count {
@@ -190,12 +183,6 @@ class DetailViewController: UIViewController {
                             print("既存の配列に要素を追加")
                             self.weatherIconArray[sectionCount].append(weatherIcon)
                         }
-                        print("##A\(self.weatherIconArray)")
-
-                        print(weatherIdArray.count)
-                        print(weatherIconArray.count)
-                        print(weatherIdArray[weatherIdArray.count - 1].count)
-                        print(weatherIconArray[weatherIconArray.count - 1].count)
                     }
                     // 外側の配列の要素数が等しく、且つ内側の要素数も等しい場合、非同期処理完了とみなす
                     if weatherIconArray.count == weatherIdArray.count {
@@ -262,7 +249,6 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     // セルの値の定義
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
-        print("&&&\(weatherIconArray)")
         cell.weatherImage.image = weatherIconArray[indexPath.section][indexPath.row]
         cell.maxTempLabel.text = "最高気温：" + String(maxTempArray[indexPath.section][indexPath.row]) + "℃"
         cell.minTempLabel.text = "最低気温：" + String(minTempArray[indexPath.section][indexPath.row]) + "℃"
