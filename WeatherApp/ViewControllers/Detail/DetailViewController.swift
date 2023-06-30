@@ -72,7 +72,7 @@ class DetailViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.updateView(response: response)
+                self.processResponse(response: response)
 
             case .failure(let error):
                 print(error)
@@ -93,7 +93,7 @@ class DetailViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.updateView(response: response)
+                self.processResponse(response: response)
 
             case .failure(let error):
                 print(error)
@@ -102,32 +102,8 @@ class DetailViewController: UIViewController {
             }
         }
     }
-
-    private func updateView(response: WeatherData) {
-        // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
-        let dispatchGroup = DispatchGroup()
-        // 複数の非同期処理に入る
-        dispatchGroup.enter()
-        print("複数の非同期開始")
-        // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
-        dispatchGroup.notify(queue: .main) {
-            print("複数の非同期終了後の処理実行中")
-            // インジケータ表示停止
-            LoadingIndicator.stop(loadingIndicatorView: self.view)
-            // 取得した地名を表示
-            self.locationLabel.text = self.location
-            // グラフの表示
-            self.displayChart(data: self.rainyPercentArray)
-            // テーブルビューの表示更新
-            self.detailTableView.reloadData()
-        }
-        // 仮画像の削除
-        self.weatherIconArray = []
-        self.maxTempArray = []
-        self.minTempArray = []
-        self.humidityArray = []
-        self.rainyPercentArray = []
-        self.timeArray = []
+    /// APIから受け取ったレスポンスを処理（配列に格納など）するメソッド
+    private func processResponse(response: WeatherData) {
         self.location = response.city.name
 
         for weatherData in response.list {
@@ -166,7 +142,10 @@ class DetailViewController: UIViewController {
                 self.weatherIdArray.append([iconId])
             }
         }
-        // 非同期処理①：取得したアイコンIdから画像を取得
+        processWeatherIconArray()
+    }
+    /// 天気アイコンを処理するメソッド
+    private func processWeatherIconArray() {
         // 外側の配列の要素数をセクション数と見なし、セクションの数分、繰り返す
         for sectionCount in 0..<weatherIdArray.count {
             // 内側の配列の要素数分、繰り返す
@@ -184,22 +163,35 @@ class DetailViewController: UIViewController {
                             self.weatherIconArray[sectionCount].append(weatherIcon)
                         }
                     }
-                    // 外側の配列の要素数が等しく、且つ内側の要素数も等しい場合、非同期処理完了とみなす
-                    if weatherIconArray.count == weatherIdArray.count {
-                        if weatherIconArray[weatherIconArray.count - 1].count == weatherIdArray[weatherIdArray.count - 1].count {
-                            // 複数の非同期処理の完了
-                            print("非同期処理が完了したので、完了後の処理を実行")
-                            dispatchGroup.leave()
-                        }
-                    }
+                    checkWeatherIconArray()
                 }
-
             }
-
         }
-
     }
-
+    /// 配列内の要素を確認し、view更新可否の判定をするメソッド
+    private func checkWeatherIconArray() {
+        // 外側の配列の要素数が等しく、且つ内側の要素数も等しい場合、非同期処理完了とみなす
+        if weatherIconArray.count == weatherIdArray.count {
+            if weatherIconArray[weatherIconArray.count - 1].count == weatherIdArray[weatherIdArray.count - 1].count {
+                updateView()
+            }
+        }
+    }
+    /// viewを更新するメソッド
+    private func updateView() {
+        // メインスレッドで実行
+        DispatchQueue.main.sync {
+            // インジケータ表示停止
+            LoadingIndicator.stop(loadingIndicatorView: self.view)
+            // 取得した地名を表示
+            self.locationLabel.text = self.location
+            // グラフの表示
+            self.displayChart(data: self.rainyPercentArray)
+            // テーブルビューの表示更新
+            self.detailTableView.reloadData()
+        }
+    }
+    ///グラフを表示するメソッド
     private func displayChart(data: [Double]) {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
