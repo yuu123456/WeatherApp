@@ -11,7 +11,7 @@ protocol LocationManagerDelegate: AnyObject {
     func didUpdateLocation(_ location: CLLocation)
     func didFailWithError(_ error: Error)
 }
-
+/// シングルトン
 final class LocationManager: NSObject {
     private let locationManager = CLLocationManager()
     weak var delegate: LocationManagerDelegate?
@@ -22,13 +22,18 @@ final class LocationManager: NSObject {
         super.init()
         locationManager.delegate = self
     }
+    /// 位置情報取得許諾状態を表すプロパティ。許可されていればTrue
+    var isAuthorized: Bool {
+        let status = locationManager.authorizationStatus
+        return status == .authorizedAlways || status == .authorizedWhenInUse
+    }
 
     func requestLocationPermission() {
         locationManager.requestWhenInUseAuthorization()
     }
 
     func startUpdatingLocation() {
-        if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse {
+        if isAuthorized {
             print("アプリの位置情報取得が許可されています")
             locationManager.startUpdatingLocation()
         } else {
