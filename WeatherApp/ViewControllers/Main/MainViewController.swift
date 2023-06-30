@@ -58,6 +58,11 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func tapLocationGetButton(_ sender: Any) {
+        // アプリへの位置情報許諾状況を確認し、許可されていなければダイアログ表示
+        guard LocationManager.shared.isAuthorized else {
+            displayNotGetLocationDialog()
+            return
+        }
         if CLLocationManager.locationServicesEnabled() {
             print("デバイスの位置情報が取得可能です")
             LocationManager.shared.startUpdatingLocation()
@@ -65,6 +70,21 @@ class MainViewController: UIViewController {
             print("デバイスの位置情報が取得できません")
         }
 
+    }
+    /// 位置情報を取得できない場合のダイアログを表示するメソッド
+    func displayNotGetLocationDialog() {
+        let title = "位置情報取得失敗"
+        let message = "このアプリの位置情報取得が許可されていません。アプリの設定を見直してください。"
+        let dialog = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let closeAction = UIAlertAction(title: "閉じる", style: .default)
+        let settingAction = UIAlertAction(title: "設定", style: .default) {_ in
+            guard let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) else { return }
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+
+        }
+        dialog.addAction(closeAction)
+        dialog.addAction(settingAction)
+        self.present(dialog, animated: true, completion: nil)
     }
 }
 
@@ -77,6 +97,6 @@ extension MainViewController: LocationManagerDelegate {
     }
 
     func didFailWithError(_ error: Error) {
-        print("位置情報が取得できないため、遷移しません（のちにアラート実装）")
+        print("位置情報が取得できないため、遷移しません")
     }
 }
