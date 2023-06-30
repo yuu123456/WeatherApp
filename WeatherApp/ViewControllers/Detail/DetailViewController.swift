@@ -14,6 +14,7 @@ class DetailViewController: UIViewController {
     var latitude: Double?
     var longitude: Double?
 
+    private var weatherIdArray: [[String]] = []
     private var weatherIconArray: [[UIImage]] = []
     private var maxTempArray: [[Double]] = []
     private var minTempArray: [[Double]] = []
@@ -71,8 +72,7 @@ class DetailViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.updateView(response: response)
-                print(maxTempArray)
+                self.storeAPIResponseInArray(response: response)
 
             case .failure(let error):
                 print(error)
@@ -93,24 +93,17 @@ class DetailViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.updateView(response: response)
+                self.storeAPIResponseInArray(response: response)
 
             case .failure(let error):
                 print(error)
+                // エラー内容をダイアログで表示する
+                error.showAlert(from: self)
             }
         }
     }
-
-    private func updateView(response: WeatherData) {
-        // 複数の非同期処理完了時に処理を行いたいときに用いるDispatchGroup
-        let dispatchGroup = DispatchGroup()
-        // 仮画像の削除
-        self.weatherIconArray = []
-        self.maxTempArray = []
-        self.minTempArray = []
-        self.humidityArray = []
-        self.rainyPercentArray = []
-        self.timeArray = []
+    /// APIから受け取ったレスポンスを配列に格納するメソッド
+    private func storeAPIResponseInArray(response: WeatherData) {
         self.location = response.city.name
 
         for weatherData in response.list {
@@ -133,17 +126,8 @@ class DetailViewController: UIViewController {
                     print("iconIdが取得できていません")
                     continue
                 }
-                // 複数の非同期処理に入る
-                dispatchGroup.enter()
-                // 非同期処理①：取得したアイコンIdから画像を取得
-                GetWeatherIcon.getWeatherIcon(iconId: iconId) { [weak self] weatherIcon in
-                    guard let self = self else { return }
-                    if let weatherIcon = weatherIcon {
-                        self.weatherIconArray[index].append(weatherIcon)
-                    }
-                    // 複数の非同期処理の完了
-                    dispatchGroup.leave()
-                }
+                // 一旦、iconIdを格納して、後ほどアイコン画像を取得する
+                self.weatherIdArray[index].append(iconId)
             } else {
                 // dateに同じ日付がない場合、新たな要素として、日付と時間を追加する
                 self.dateTimeArray.append((date: date, time: [time]))
@@ -155,21 +139,48 @@ class DetailViewController: UIViewController {
                     print("iconIdが取得できていません")
                     continue
                 }
-                // 複数の非同期処理に入る
-                dispatchGroup.enter()
-                // 非同期処理①：取得したアイコンIdから画像を取得
-                GetWeatherIcon.getWeatherIcon(iconId: iconId) { [weak self] weatherIcon in
+                self.weatherIdArray.append([iconId])
+            }
+        }
+        storeWeatherIconInArray()
+    }
+    /// 天気アイコンを配列に格納するメソッド
+    private func storeWeatherIconInArray() {
+        // 外側の配列の要素数をセクション数と見なし、セクションの数分、繰り返す
+        for sectionCount in 0..<weatherIdArray.count {
+            // 内側の配列の要素数分、繰り返す
+            for idCount in 0..<weatherIdArray[sectionCount].count {
+                GetWeatherIcon.getWeatherIcon(iconId: weatherIdArray[sectionCount][idCount]) { [weak self] weatherIcon in
                     guard let self = self else { return }
                     if let weatherIcon = weatherIcon {
-                        self.weatherIconArray.append([weatherIcon])
+                        // セクションカウントがアイコンを格納する配列の要素数と等しい時、新たな配列追加
+                        // そうでない場合は、既存の配列に要素を追加
+                        if sectionCount == weatherIconArray.count {
+                            print("新たな配列を追加")
+                            self.weatherIconArray.append([weatherIcon])
+                        } else {
+                            print("既存の配列に要素を追加")
+                            self.weatherIconArray[sectionCount].append(weatherIcon)
+                        }
                     }
-                    // 複数の非同期処理の完了
-                    dispatchGroup.leave()
+                    checkWeatherIconArray()
                 }
             }
         }
-        // 複数の非同期処理完了後に行う処理（取得の都度リロードすると、Index不足でエラーになる）
-        dispatchGroup.notify(queue: .main) {
+    }
+    /// 配列内の要素を確認し、view更新可否の判定をするメソッド
+    private func checkWeatherIconArray() {
+        // 外側の配列の要素数が等しく、且つ内側の要素数も等しい場合、非同期処理完了とみなす
+        if weatherIconArray.count == weatherIdArray.count {
+            if weatherIconArray[weatherIconArray.count - 1].count == weatherIdArray[weatherIdArray.count - 1].count {
+                updateView()
+            }
+        }
+    }
+    /// viewを更新するメソッド
+    private func updateView() {
+        // メインスレッドで実行
+        DispatchQueue.main.sync {
             // インジケータ表示停止
             LoadingIndicator.stop(loadingIndicatorView: self.view)
             // 取得した地名を表示
@@ -180,7 +191,7 @@ class DetailViewController: UIViewController {
             self.detailTableView.reloadData()
         }
     }
-
+    /// グラフを表示するメソッド
     private func displayChart(data: [Double]) {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
@@ -230,7 +241,6 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     // セルの値の定義
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTableViewCell", for: indexPath) as! DetailTableViewCell
-
         cell.weatherImage.image = weatherIconArray[indexPath.section][indexPath.row]
         cell.maxTempLabel.text = "最高気温：" + String(maxTempArray[indexPath.section][indexPath.row]) + "℃"
         cell.minTempLabel.text = "最低気温：" + String(minTempArray[indexPath.section][indexPath.row]) + "℃"

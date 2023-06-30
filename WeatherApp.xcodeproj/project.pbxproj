@@ -15,6 +15,7 @@
 		234F95592A3F0FF200872335 /* GETWeatherIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234F95582A3F0FF200872335 /* GETWeatherIcon.swift */; };
 		236264BD2A49858A00E5AE4E /* ExtensionDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236264BC2A49858A00E5AE4E /* ExtensionDouble.swift */; };
 		236264BF2A4A688A00E5AE4E /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236264BE2A4A688A00E5AE4E /* LoadingIndicator.swift */; };
+		236264C32A4C18F300E5AE4E /* ExtensionUIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236264C22A4C18F300E5AE4E /* ExtensionUIAlertController.swift */; };
 		23809B8C2A0A83F5008CF97A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809B8B2A0A83F5008CF97A /* AppDelegate.swift */; };
 		23809B8E2A0A83F5008CF97A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809B8D2A0A83F5008CF97A /* SceneDelegate.swift */; };
 		23809B952A0A83F7008CF97A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23809B942A0A83F7008CF97A /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 		234F95582A3F0FF200872335 /* GETWeatherIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GETWeatherIcon.swift; sourceTree = "<group>"; };
 		236264BC2A49858A00E5AE4E /* ExtensionDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDouble.swift; sourceTree = "<group>"; };
 		236264BE2A4A688A00E5AE4E /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		236264C22A4C18F300E5AE4E /* ExtensionUIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIAlertController.swift; sourceTree = "<group>"; };
 		23809B882A0A83F5008CF97A /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23809B8B2A0A83F5008CF97A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23809B8D2A0A83F5008CF97A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 		23379CB52A16314D00CCDBD3 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				236264C22A4C18F300E5AE4E /* ExtensionUIAlertController.swift */,
 				23D1C6C72A1F93B300126E54 /* ExtensionUIButton.swift */,
 				236264BC2A49858A00E5AE4E /* ExtensionDouble.swift */,
 				232BF36C2A25849E0042FEF3 /* ExtensionDate.swift */,
@@ -344,6 +347,7 @@
 				23F0DCF92A3C006A00602FC0 /* APIClientError.swift in Sources */,
 				23F0DCFF2A3C749C00602FC0 /* APIError.swift in Sources */,
 				232BF36D2A25849E0042FEF3 /* ExtensionDate.swift in Sources */,
+				236264C32A4C18F300E5AE4E /* ExtensionUIAlertController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
