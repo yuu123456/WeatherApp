@@ -72,7 +72,7 @@ class DetailViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.processResponse(response: response)
+                self.storeAPIResponseInArray(response: response)
 
             case .failure(let error):
                 print(error)
@@ -93,7 +93,7 @@ class DetailViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.processResponse(response: response)
+                self.storeAPIResponseInArray(response: response)
 
             case .failure(let error):
                 print(error)
@@ -102,8 +102,8 @@ class DetailViewController: UIViewController {
             }
         }
     }
-    /// APIから受け取ったレスポンスを処理（配列に格納など）するメソッド
-    private func processResponse(response: WeatherData) {
+    /// APIから受け取ったレスポンスを配列に格納するメソッド
+    private func storeAPIResponseInArray(response: WeatherData) {
         self.location = response.city.name
 
         for weatherData in response.list {
@@ -142,10 +142,10 @@ class DetailViewController: UIViewController {
                 self.weatherIdArray.append([iconId])
             }
         }
-        processWeatherIconArray()
+        storeWeatherIconInArray()
     }
-    /// 天気アイコンを処理するメソッド
-    private func processWeatherIconArray() {
+    /// 天気アイコンを配列に格納するメソッド
+    private func storeWeatherIconInArray() {
         // 外側の配列の要素数をセクション数と見なし、セクションの数分、繰り返す
         for sectionCount in 0..<weatherIdArray.count {
             // 内側の配列の要素数分、繰り返す
@@ -191,7 +191,7 @@ class DetailViewController: UIViewController {
             self.detailTableView.reloadData()
         }
     }
-    ///グラフを表示するメソッド
+    /// グラフを表示するメソッド
     private func displayChart(data: [Double]) {
         // プロットデータ(y軸)を保持する配列
         var dataEntries = [ChartDataEntry]()
