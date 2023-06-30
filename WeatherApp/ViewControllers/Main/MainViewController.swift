@@ -14,7 +14,6 @@ class MainViewController: UIViewController {
 
     private let buttonLayoutX: CGFloat = 100
     private let buttonLayoutY: CGFloat = 40
-    private let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +59,7 @@ class MainViewController: UIViewController {
 
     @IBAction func tapLocationGetButton(_ sender: Any) {
         // アプリへの位置情報許諾状況を確認し、許可されていなければダイアログ表示
-        guard locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse else {
+        guard LocationManager.shared.isAuthorized else {
             displayNotGetLocationDialog()
             return
         }
