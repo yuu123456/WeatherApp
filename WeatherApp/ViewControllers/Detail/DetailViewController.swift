@@ -76,6 +76,8 @@ class DetailViewController: UIViewController {
 
             case .failure(let error):
                 print(error)
+                // エラー内容をダイアログで表示する
+                error.showAlert(from: self)
             }
         }
     }
