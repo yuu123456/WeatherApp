@@ -16,6 +16,7 @@
 		236264BD2A49858A00E5AE4E /* ExtensionDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236264BC2A49858A00E5AE4E /* ExtensionDouble.swift */; };
 		236264BF2A4A688A00E5AE4E /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236264BE2A4A688A00E5AE4E /* LoadingIndicator.swift */; };
 		236264C32A4C18F300E5AE4E /* ExtensionUIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236264C22A4C18F300E5AE4E /* ExtensionUIAlertController.swift */; };
+		236264C52A4E659A00E5AE4E /* UserNotificationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236264C42A4E659A00E5AE4E /* UserNotificationUtil.swift */; };
 		23809B8C2A0A83F5008CF97A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809B8B2A0A83F5008CF97A /* AppDelegate.swift */; };
 		23809B8E2A0A83F5008CF97A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23809B8D2A0A83F5008CF97A /* SceneDelegate.swift */; };
 		23809B952A0A83F7008CF97A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23809B942A0A83F7008CF97A /* Assets.xcassets */; };
@@ -51,6 +52,8 @@
 		236264BC2A49858A00E5AE4E /* ExtensionDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDouble.swift; sourceTree = "<group>"; };
 		236264BE2A4A688A00E5AE4E /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		236264C22A4C18F300E5AE4E /* ExtensionUIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIAlertController.swift; sourceTree = "<group>"; };
+		236264C42A4E659A00E5AE4E /* UserNotificationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationUtil.swift; sourceTree = "<group>"; };
+		236264C62A4E6A5500E5AE4E /* WeatherApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherApp.entitlements; sourceTree = "<group>"; };
 		23809B882A0A83F5008CF97A /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23809B8B2A0A83F5008CF97A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23809B8D2A0A83F5008CF97A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +101,7 @@
 				23F0DCEC2A3717C300602FC0 /* WeatherData.swift */,
 				234F95582A3F0FF200872335 /* GETWeatherIcon.swift */,
 				236264BE2A4A688A00E5AE4E /* LoadingIndicator.swift */,
+				236264C42A4E659A00E5AE4E /* UserNotificationUtil.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -208,6 +212,7 @@
 		23809B8A2A0A83F5008CF97A /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				236264C62A4E6A5500E5AE4E /* WeatherApp.entitlements */,
 				23379CB82A16319C00CCDBD3 /* Delegates */,
 				23379CB32A16310E00CCDBD3 /* Models */,
 				234F95572A3E9CE900872335 /* API */,
@@ -336,6 +341,7 @@
 				23809BB92A0A914D008CF97A /* SelectViewController.swift in Sources */,
 				23F0DCFD2A3C3CFB00602FC0 /* APIClient.swift in Sources */,
 				236264BF2A4A688A00E5AE4E /* LoadingIndicator.swift in Sources */,
+				236264C52A4E659A00E5AE4E /* UserNotificationUtil.swift in Sources */,
 				23809BA52A0A8986008CF97A /* MainViewController.swift in Sources */,
 				2346CDE02A271F9E0017BB63 /* ExtensionCLAuthorizationStatus.swift in Sources */,
 				23F0DCED2A3717C300602FC0 /* WeatherData.swift in Sources */,
@@ -473,6 +479,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WeatherApp/WeatherApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8GLVHJH8KR;
@@ -506,6 +513,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WeatherApp/WeatherApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8GLVHJH8KR;

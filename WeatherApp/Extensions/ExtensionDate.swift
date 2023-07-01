@@ -22,4 +22,17 @@ extension Date {
     var formatJapaneseDateStyleForTableViewSection: String {
         return DateFormatter.formatterJapaneseDateForTableViewSection.string(from: self)
     }
+
+    /// 時間のみ抜き出した値
+    var hour: Int {
+        Calendar.current.component(.hour, from: self)
+    }
+    /// 分のみ抜き出した値
+    var minute: Int {
+        Calendar.current.component(.minute, from: self)
+    }
+    /// 何時何分と文字列にした値
+    var timeString: String {
+        String("\(hour)時\(minute)分")
+    }
 }
