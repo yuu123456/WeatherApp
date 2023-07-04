@@ -13,6 +13,19 @@ final class UserNotificationUtil: NSObject {
     static let shared = UserNotificationUtil()
     /// 現在のユーザー通知センターのインスタンスを取得。Center自体はユーザー通知の作成、スケジュール、管理を行うクラス
     private var center = UNUserNotificationCenter.current()
+    ///UserDefaultのインスタンス。通知スケジュール状態を示す変数を保管する
+    let userDefault = UserDefaults.standard
+    ///通知スケジュール状態を示す変数
+    var notificationStatus: Bool = false
+    
+    ///通知の処理が完了した際に呼び出されるクロージャを宣言（通知完了クロージャStep1）
+    var notificationCompletionHandler: (() -> Void)?
+    /// 通知が完了したことを処理するメソッド（通知完了クロージャStep2）
+//    func handleNotification() {
+//        print("クロージャ呼び出し")
+//        // クロージャ呼び出し（通知完了クロージャStep3）
+//        notificationCompletionHandler?()
+//    }
 
     /// Delegateの設定。AppDelegateまたはSceneDelegateで呼び出す。
     func initialize() {
@@ -65,6 +78,13 @@ final class UserNotificationUtil: NSObject {
                 DispatchQueue.main.async {
                     UIAlertController.showNotificationDialog(from, title: title, message: message)
                 }
+                //通知のステータスをOnに
+                UserNotificationUtil.shared.notificationStatus = true
+                self.userDefault.set(self.notificationStatus, forKey: "status")
+                print("userDefaultに保存した値：\(UserNotificationUtil.shared.notificationStatus)")
+                print("クロージャ呼び出し")
+                // クロージャ呼び出し（通知完了クロージャStep3）
+                self.notificationCompletionHandler?()
             }
         }
     }
@@ -75,6 +95,13 @@ final class UserNotificationUtil: NSObject {
         let title = "通知スケジュール削除完了"
         let message = "スケジュールされた通知を削除しました"
         UIAlertController.showNotificationDialog(viewController, title: title, message: message)
+        //通知のステータスをOffに
+        UserNotificationUtil.shared.notificationStatus = false
+        self.userDefault.set(self.notificationStatus, forKey: "status")
+        print("userDefaultに保存した値：\(UserNotificationUtil.shared.notificationStatus)")
+        print("クロージャ呼び出し")
+        // クロージャ呼び出し（通知完了クロージャStep3）
+        notificationCompletionHandler?()
     }
     /// スケジュールした通知があるか確認するメソッド
     func checkNotificationRequests(from: UIViewController) {

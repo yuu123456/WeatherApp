@@ -14,9 +14,29 @@ class MainViewController: UIViewController {
 
     private let buttonLayoutX: CGFloat = 100
     private let buttonLayoutY: CGFloat = 40
+    
+    let userDefault = UserDefaults.standard
+    
+    /// 通知アイコン画像
+    var notificationImage: UIImage? {
+        if UserNotificationUtil.shared.notificationStatus {
+            //通知スケジュールある場合
+            return UIImage(systemName: "bell")
+        } else {
+            //通知スケジュールない場合
+            return UIImage(systemName: "bell.slash")
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //通知ハンドラの設定（通知完了クロージャStep4）
+        UserNotificationUtil.shared.notificationCompletionHandler = { [weak self] in
+            print("クロージャ実行中")
+            //Viewの更新メソッドを呼びだす
+            self?.updateNavigationBarItemImage()
+        }
 
         LocationManager.shared.delegate = self
         LocationManager.shared.requestLocationPermission()
@@ -86,12 +106,21 @@ class MainViewController: UIViewController {
 
     /// navigationBarに通知アイコンを設定するメソッド
     func setNavigationBarNotificationImage() {
-        /// 通知アイコン画像
-        let notificationImage = UIImage(systemName: "bell.and.waves.left.and.right")
-        /// 通知アイコン画像をUIBarButtonItemにする（selectorでは()不要）
-        let notificationBarButtonItem = UIBarButtonItem(image: notificationImage, style: .plain, target: self, action: #selector(tapNotificationBarButton))
-        // nabigationBar右側のボタンに通知アイコンを指定
-        self.navigationItem.rightBarButtonItem = notificationBarButtonItem
+        //保存している通知状態のステータスを呼び出す
+        UserNotificationUtil.shared.notificationStatus = userDefault.bool(forKey: "status")
+        print(UserNotificationUtil.shared.notificationStatus)
+        updateNavigationBarItemImage()
+    }
+    
+    ///navigationBarItemImage更新
+    func updateNavigationBarItemImage() {
+        DispatchQueue.main.async {
+            /// 通知アイコン画像をUIBarButtonItemにする（selectorでは()不要）
+            let notificationBarButtonItem = UIBarButtonItem(image: self.notificationImage, style: .plain, target: self, action: #selector(self.tapNotificationBarButton))
+            // nabigationBar右側のボタンに通知アイコンを指定
+            self.navigationItem.rightBarButtonItem = notificationBarButtonItem
+            print("NavigationBar更新")
+        }
     }
 
     /// 通知アイコンをタップした際の処理（#selectorを用いる場合、@objcの付与及び、クラスメソッドである必要がある？ローカルでは呼び込めない）
