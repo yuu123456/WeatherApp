@@ -72,7 +72,7 @@ class DetailViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.saveAPIResponse(response: response)
+                self.storeAPIResponseInArray(response: response)
 
             case .failure(let error):
                 print(error)
@@ -95,7 +95,7 @@ class DetailViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.saveAPIResponse(response: response)
+                self.storeAPIResponseInArray(response: response)
 
             case .failure(let error):
                 print(error)
@@ -105,7 +105,7 @@ class DetailViewController: UIViewController {
         }
     }
     /// APIから受け取ったレスポンスを配列に格納するメソッド
-    private func saveAPIResponse(response: WeatherData) {
+    private func storeAPIResponseInArray(response: WeatherData) {
         self.location = response.city.name
 
         for weatherData in response.list {
@@ -144,10 +144,10 @@ class DetailViewController: UIViewController {
                 self.weatherIdArray.append([iconId])
             }
         }
-        saveWeatherIcon()
+        storeWeatherIconInArray()
     }
     /// 天気アイコンを配列に格納するメソッド
-    private func saveWeatherIcon() {
+    private func storeWeatherIconInArray() {
         // 外側の配列の要素数をセクション数と見なし、セクションの数分、繰り返す
         for sectionCount in 0..<weatherIdArray.count {
             // 内側の配列の要素数分、繰り返す
